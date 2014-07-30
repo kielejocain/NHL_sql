@@ -123,6 +123,70 @@ class GoalSumSpider(CrawlSpider):
             # feed item to pipeline
             yield loader.load_item()
 
+# This spider scrapes bio pages to get the birth year of goaltenders.
+
+class GoalBioSpider(CrawlSpider):
+    name = "goalbio"
+    allowed_domains = ["nhl.com"]
+    start_urls = []
+
+    rules = (Rule(LxmlLinkExtractor(
+                                    allow=('.*&pg=.*'),
+                                    restrict_xpaths=('/html//tfoot[@class="paging"]')
+                                    ),
+                  callback='parse_item', follow=True
+                  ),)
+    
+    # This function allows us to pass an argument to the spider
+    # by inserting it into the command line prompt.
+    # E.g., scrapy crawl goalbio -a season='1998' etc...
+    
+    def __init__(self, season, *args, **kwargs):
+        super(GoalBioSpider, self).__init__(*args, **kwargs)
+        
+        # allows the passing of the command line argument to parse_item method
+        self.year = int(season)
+        
+        # defines the starting URL procedurally
+        self.start_urls = ["http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLGAGALL"
+                  "&viewName=penaltyShot&sort=player.birthCountryAbbrev&pg=1" % season]
+
+    def parse_item(self, response):
+        sel = Selector(response)
+        
+        # collect xpaths of each player (row in table)
+        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        
+        # instantiate parsing variables
+        num = 0
+        
+        # loop through players
+        for row in rows:
+            loader = ItemLoader(SkatSumItem(), selector=row)
+            loader.default_input_processor = MapCompose()
+            loader.default_output_processor = Join()
+            
+            # get unique NHL ID number from player's page URL
+            num = cell.xpath('td[2]/a/@href').extract()
+            sNum = num[0][-7:]
+            loader.add_value('nhl_num', sNum)
+            
+            # add season data
+            loader.add_value('season', str(self.year))
+            
+            # collect birth year, convert per NHL CBA
+            bDate = row.xpath('td[4]/text()').extract()[0]
+            bMonth = bDate[:3]
+            bYear = int(bDate[-2:])
+            # Players age according to whether or not they where born by June 30th
+            if bMonth in ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']:
+                bYear = bYear+1
+            bYear = str(bYear+1900)
+            loader.add_value('birth_year', bYear)
+            
+            # feed item to pipeline
+            yield loader.load_item()
+
 # This spider scrapes penalty shot stats.
 
 class GoalPSSpider(CrawlSpider):
@@ -130,33 +194,57 @@ class GoalPSSpider(CrawlSpider):
     allowed_domains = ["nhl.com"]
     start_urls = []
 
-    rules = (Rule(SgmlLinkExtractor(
+    rules = (Rule(LxmlLinkExtractor(
                                     allow=('.*&pg=.*'),
                                     restrict_xpaths=('/html//tfoot[@class="paging"]')
                                     ),
                   callback='parse_item', follow=True
                   ),)
     
+    # This function allows us to pass an argument to the spider
+    # by inserting it into the command line prompt.
+    # E.g., scrapy crawl goalbio -a season='1998' etc...
+    
     def __init__(self, season, *args, **kwargs):
         super(GoalPSSpider, self).__init__(*args, **kwargs)
+        
+        # allows the passing of the command line argument to parse_item method
+        self.year = int(season)
+        
+        # defines the starting URL procedurally
         self.start_urls = ["http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLGAGALL"
                   "&viewName=penaltyShot&sort=penaltyShotsAgainst&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
-        cells = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
-        items = []
+        
+        # collect xpaths of each player (row in table)
+        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        
+        # instantiate parsing variables
         num = 0
-        for cell in cells:
-            item = GoalPSItem()
+        
+        # loop through players
+        for row in rows:
+            loader = ItemLoader(SkatSumItem(), selector=row)
+            loader.default_input_processor = MapCompose()
+            loader.default_output_processor = Join()
+            
+            # get unique NHL ID number from player's page URL
             num = cell.xpath('td[2]/a/@href').extract()
-            sNum = int(num[0][-7:])
-            item['nhl_num'] = sNum
-            item['ps_attempts'] = int(cell.xpath('td[6]/text()').extract()[0])
-            item['ps_goals_against'] = int(cell.xpath('td[7]/text()').extract()[0])
-            item['ps_saves'] = int(cell.xpath('td[8]/text()').extract()[0])
-            items.append(item)
-        return items
+            sNum = num[0][-7:]
+            loader.add_value('nhl_num', sNum)
+            
+            # add season data
+            loader.add_value('season', str(self.year))
+            
+            # collect additional stats
+            loader.add_xpath('ps_attempts', './/td[6]/text()')
+            loader.add_xpath('ps_goals_against', './/td[7]/text()')
+            loader.add_xpath('ps_saves', './/td[8]/text()')
+            
+            # feed item to pipeline
+            yield loader.load_item()
 
 # This spider scrapes shootout stats.
 
@@ -165,34 +253,57 @@ class GoalSOSpider(CrawlSpider):
     allowed_domains = ["nhl.com"]
     start_urls = []
 
-    rules = (Rule(SgmlLinkExtractor(
+    rules = (Rule(LxmlLinkExtractor(
                                     allow=('.*&pg=.*'),
                                     restrict_xpaths=('/html//tfoot[@class="paging"]')
                                     ),
                   callback='parse_item', follow=True
                   ),)
     
+    # This function allows us to pass an argument to the spider
+    # by inserting it into the command line prompt.
+    # E.g., scrapy crawl goalso -a season='1998' etc...
+    
     def __init__(self, season, *args, **kwargs):
         super(GoalSOSpider, self).__init__(*args, **kwargs)
+        
+        # allows the passing of the command line argument to parse_item method
+        self.year = int(season)
+        
+        # defines the starting URL procedurally
         self.start_urls = ["http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLGAGALL"
                   "&viewName=shootouts&sort=shootoutGamesWon&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
-        cells = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
-        items = []
+        
+        # collect xpaths of each player (row in table)
+        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        
+        # instantiate parsing variables
         num = 0
-        for cell in cells:
-            item = GoalSOItem()
+        
+        for row in rows:
+            loader = ItemLoader(SkatSumItem(), selector=row)
+            loader.default_input_processor = MapCompose()
+            loader.default_output_processor = Join()
+            
+            # get unique NHL ID number from player's page URL
             num = cell.xpath('td[2]/a/@href').extract()
-            sNum = int(num[0][-7:])
-            item['nhl_num'] = sNum
-            item['so_wins'] = int(cell.xpath('td[14]/text()').extract()[0])
-            item['so_losses'] = int(cell.xpath('td[15]/text()').extract()[0])
-            item['so_shots_against'] = int(cell.xpath('td[16]/text()').extract()[0])
-            item['so_goals_against'] = int(cell.xpath('td[17]/text()').extract()[0])
-            items.append(item)
-        return items
+            sNum = num[0][-7:]
+            loader.add_value('nhl_num', sNum)
+            
+            # add season data
+            loader.add_value('season', str(self.year))
+            
+            # collect additional stats
+            loader.add_xpath('so_wins', './/td[14]/text()')
+            loader.add_xpath('so_losses', './/td[15]/text()')
+            loader.add_xpath('so_shots_against', './/td[16]/text()')
+            loader.add_xpath('so_goals_against', './/td[17]/text()')
+            
+            # feed item to pipeline
+            yield loader.load_item()
 
 # This spider scrapes special teams stats.
 
@@ -201,42 +312,62 @@ class GoalSTSpider(CrawlSpider):
     allowed_domains = ["nhl.com"]
     start_urls = []
 
-    rules = (Rule(SgmlLinkExtractor(
+    rules = (Rule(LxmlLinkExtractor(
                                     allow=('.*&pg=.*'),
                                     restrict_xpaths=('/html//tfoot[@class="paging"]')
                                     ),
                   callback='parse_item', follow=True
                   ),)
     
+    # This function allows us to pass an argument to the spider
+    # by inserting it into the command line prompt.
+    # E.g., scrapy crawl goalso -a season='1998' etc...
+    
     def __init__(self, season, *args, **kwargs):
         super(GoalSTSpider, self).__init__(*args, **kwargs)
+        
+        # allows the passing of the command line argument to parse_item method
+        self.year = int(season)
+        
+        # defines the starting URL procedurally
         self.start_urls = ["http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLGAGALL"
                   "&viewName=specialTeamSaves&sort=evenStrengthSaves&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
+        
+        # collect xpaths of each player (row in table)
         cells = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
-        items = []
+        
+        # instantiate parsing variables
         num = 0
-        for cell in cells:
-            item = GoalSTItem()
+        
+        for row in rows:
+            loader = ItemLoader(SkatSumItem(), selector=row)
+            loader.default_input_processor = MapCompose()
+            loader.default_output_processor = Join()
+            
+            # get unique NHL ID number from player's page URL
             num = cell.xpath('td[2]/a/@href').extract()
-            sNum = int(num[0][-7:])
-            item['nhl_num'] = sNum
-            i = 5
-            CATEG = [
-                     'es_shots_against', 'es_goals_against', 'es_saves', 'es_save_pct',
-                     'pp_shots_against', 'pp_goals_against', 'pp_saves', 'pp_save_pct',
-                     'sh_shots_against', 'sh_goals_against', 'sh_saves', 'sh_save_pct'
-                     ]
-            while i < 17:
-                i += 1
-                if i % 4 == 1:
-                    try:
-                        item[CATEG[i-6]] = float(cell.xpath('td[' + str(i) + ']/text()').extract()[0])
-                    except IndexError:
-                        item[CATEG[i-6]] = 0.0
-                else:
-                    item[CATEG[i-6]] = int(cell.xpath('td[' + str(i) + ']/text()').extract()[0])
-            items.append(item)
-        return items
+            sNum = num[0][-7:]
+            loader.add_value('nhl_num', sNum)
+            
+            # add season data
+            loader.add_value('season', str(self.year))
+            
+            # collect additional stats
+            loader.add_xpath('es_shots_against', './/td[6]/text()')
+            loader.add_xpath('es_goals_against', './/td[7]/text()')
+            loader.add_xpath('es_saves', './/td[8]/text()')
+            loader.add_xpath('es_save_pct', './/td[9]/text()')
+            loader.add_xpath('pp_shots_against', './/td[10]/text()')
+            loader.add_xpath('pp_goals_against', './/td[11]/text()')
+            loader.add_xpath('pp_saves', './/td[12]/text()')
+            loader.add_xpath('pp_save_pct', './/td[13]/text()')
+            loader.add_xpath('sh_shots_against', './/td[14]/text()')
+            loader.add_xpath('sh_goals_against', './/td[15]/text()')
+            loader.add_xpath('sh_saves', './/td[16]/text()')
+            loader.add_xpath('sh_save_pct', './/td[17]/text()')
+            
+            # feed item to pipeline
+            yield loader.load_item()

@@ -47,6 +47,16 @@ class PlayerPipeline(object):
             player = SkaterOT(**item)
         elif whois == 'skattoi':
             player = SkaterTOI(**item)
+        elif whois == 'goalsum':
+            player = GoalieSum(**item)
+        elif whois == 'goalbio':
+            player = GoalieBio(**item)
+        elif whois == 'goalps':
+            player = GoaliePS(**item)
+        elif whois == 'goalso':
+            player = GoalieSO(**item)
+        elif whois == 'goalst':
+            player = GoalieST(**item)
 
         try:
             session.add(player)
