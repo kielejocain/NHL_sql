@@ -140,6 +140,8 @@ class GoalieSum(DeclarativeBase):
     season = Column('season', Integer)
     position = Column('position', String)
     team = Column('team', String)
+    team2 = Column('team2', String, nullable=True)
+    team3 = Column('team3', String, nullable=True)
     games_played = Column('games_played', Integer)
     games_started = Column('games_started', Integer)
     wins = Column('wins', Integer)
@@ -186,7 +188,7 @@ class GoalieSO(DeclarativeBase):
     so_shots_against = Column('so_shots_against', Integer)
     so_goals_against = Column('so_goals_against', Integer)
     
-class GoalieSO(DeclarativeBase):
+class GoalieST(DeclarativeBase):
     """Sqlalchemy goalie special teams model"""
     __tablename__ = "goalst"
 

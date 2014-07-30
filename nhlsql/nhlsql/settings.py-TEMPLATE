@@ -10,6 +10,7 @@ BOT_NAME = 'nhlsql'
 
 SPIDER_MODULES = ['nhlsql.spiders']
 NEWSPIDER_MODULE = 'nhlsql.spiders'
+LOG_FILE = 'nhlsql.log'
 
 DATABASE = {'drivername': 'postgres',
             'host': 'localhost',
@@ -18,7 +19,7 @@ DATABASE = {'drivername': 'postgres',
             'password': '[--password--]',
             'database': '[--database name--]'}
 
-ITEM_PIPELINES = ['nhlsql.pipelines.PlayerPipeline']
+ITEM_PIPELINES = {'nhlsql.pipelines.PlayerPipeline': 100}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'nhlsql (+http://www.yourdomain.com)'

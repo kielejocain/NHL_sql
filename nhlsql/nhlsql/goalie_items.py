@@ -14,6 +14,8 @@ class GoalSumItem(Item):
     season = Field()
     position = Field()
     team = Field()
+    team2 = Field()
+    team3 = Field()
     games_played = Field()
     games_started = Field()
     wins = Field()

@@ -55,12 +55,12 @@ class GoalSumSpider(CrawlSpider):
         
         # loop through players
         for row in rows:
-            loader = ItemLoader(SkatSumItem(), selector=row)
+            loader = ItemLoader(GoalSumItem(), selector=row)
             loader.default_input_processor = MapCompose()
             loader.default_output_processor = Join()
             
             # parse the name
-            name = cell.xpath('td[2]/a/text()').extract()
+            name = row.xpath('td[2]/a/text()').extract()
             sName = name[0].split(' ',1)
             loader.add_value('first_name', sName[0])
             loader.add_value('last_name', sName[1])
@@ -162,12 +162,12 @@ class GoalBioSpider(CrawlSpider):
         
         # loop through players
         for row in rows:
-            loader = ItemLoader(SkatSumItem(), selector=row)
+            loader = ItemLoader(GoalBioItem(), selector=row)
             loader.default_input_processor = MapCompose()
             loader.default_output_processor = Join()
             
             # get unique NHL ID number from player's page URL
-            num = cell.xpath('td[2]/a/@href').extract()
+            num = row.xpath('td[2]/a/@href').extract()
             sNum = num[0][-7:]
             loader.add_value('nhl_num', sNum)
             
@@ -226,12 +226,12 @@ class GoalPSSpider(CrawlSpider):
         
         # loop through players
         for row in rows:
-            loader = ItemLoader(SkatSumItem(), selector=row)
+            loader = ItemLoader(GoalPSItem(), selector=row)
             loader.default_input_processor = MapCompose()
             loader.default_output_processor = Join()
             
             # get unique NHL ID number from player's page URL
-            num = cell.xpath('td[2]/a/@href').extract()
+            num = row.xpath('td[2]/a/@href').extract()
             sNum = num[0][-7:]
             loader.add_value('nhl_num', sNum)
             
@@ -284,12 +284,12 @@ class GoalSOSpider(CrawlSpider):
         num = 0
         
         for row in rows:
-            loader = ItemLoader(SkatSumItem(), selector=row)
+            loader = ItemLoader(GoalSOItem(), selector=row)
             loader.default_input_processor = MapCompose()
             loader.default_output_processor = Join()
             
             # get unique NHL ID number from player's page URL
-            num = cell.xpath('td[2]/a/@href').extract()
+            num = row.xpath('td[2]/a/@href').extract()
             sNum = num[0][-7:]
             loader.add_value('nhl_num', sNum)
             
@@ -337,18 +337,18 @@ class GoalSTSpider(CrawlSpider):
         sel = Selector(response)
         
         # collect xpaths of each player (row in table)
-        cells = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
         
         # instantiate parsing variables
         num = 0
         
         for row in rows:
-            loader = ItemLoader(SkatSumItem(), selector=row)
+            loader = ItemLoader(GoalSTItem(), selector=row)
             loader.default_input_processor = MapCompose()
             loader.default_output_processor = Join()
             
             # get unique NHL ID number from player's page URL
-            num = cell.xpath('td[2]/a/@href').extract()
+            num = row.xpath('td[2]/a/@href').extract()
             sNum = num[0][-7:]
             loader.add_value('nhl_num', sNum)
             
