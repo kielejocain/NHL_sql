@@ -11,6 +11,7 @@ class GoalSumItem(Item):
     first_name = Field()
     last_name = Field()
     nhl_num = Field()
+    season = Field()
     position = Field()
     team = Field()
     games_played = Field()
@@ -29,15 +30,22 @@ class GoalSumItem(Item):
     assists = Field()
     penalty_minutes = Field()
     toi = Field()
+    
+class GoalBioItem(Item):
+    nhl_num = Field()
+    season = Field()
+    birth_year = Field()
 
 class GoalPSItem(Item):
     nhl_num = Field()
+    season = Field()
     ps_attempts = Field()
     ps_goals_against = Field()
     ps_saves = Field()
 
 class GoalSOItem(Item):
     nhl_num = Field()
+    season = Field()
     so_wins = Field()
     so_losses = Field()
     so_shots_against = Field()
@@ -45,6 +53,7 @@ class GoalSOItem(Item):
 
 class GoalSTItem(Item):
     nhl_num = Field()
+    season = Field()
     es_shots_against = Field()
     es_goals_against = Field()
     es_saves = Field()

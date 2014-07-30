@@ -50,7 +50,7 @@ class SkatSumSpider(CrawlSpider):
         if self.year > 2005:
             shootout = 1
             
-        # instantiate parsing  variables
+        # instantiate parsing variables
         name = ""
         sName = []
         num = 0
