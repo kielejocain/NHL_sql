@@ -1,5 +1,3 @@
-from functools import wraps
-from scrapy import log
 from sqlalchemy.orm import sessionmaker
 
 from models import *
