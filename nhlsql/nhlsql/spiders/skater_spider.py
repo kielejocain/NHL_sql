@@ -75,6 +75,9 @@ class SkatSumSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
+            
             # players on one (extant) team all season have link to team page
             if row.xpath('td[3]/a/text()').extract():
                 loader.add_xpath('team', './/td[3]/a/text()')
@@ -174,6 +177,9 @@ class SkatBioSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
+            
             # collect birth year, convert per NHL CBA
             bDate = row.xpath('td[5]/text()').extract()[0]
             bMonth = bDate[:3]
@@ -183,6 +189,7 @@ class SkatBioSpider(CrawlSpider):
                 bYear = bYear+1
             bYear = str(bYear+1900)
             loader.add_value('birth_year', bYear)
+            loader.add_xpath('draft_year', './/td[12]/text()')
             
             # feed item to pipeline
             yield loader.load_item()
@@ -244,6 +251,9 @@ class SkatEngSpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
+            
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # collect stats
             if shootout:
@@ -308,6 +318,9 @@ class SkatPIMSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
+            
             # collect stats
             loader.add_xpath('minors', './/td[7]/text()')
             loader.add_xpath('majors', './/td[8]/text()')
@@ -370,6 +383,9 @@ class SkatPMSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
+            
             # collect stats
             loader.add_xpath('team_goals_for', './/td[14]/text()')
             loader.add_xpath('team_pp_goals_for', './/td[15]/text()')
@@ -430,6 +446,9 @@ class SkatRTSSpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
+            
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # collect stats
             loader.add_xpath('hits', './/td[6]/text()')
@@ -494,6 +513,9 @@ class SkatSOSpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
+            
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # collect stats
             loader.add_xpath('so_shots', './/td[13]/text()')
@@ -561,6 +583,9 @@ class SkatOTSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
+            
             # collect stats
             if shootout:
                 loader.add_xpath('ot_games_played', './/td[16]/text()')
@@ -625,6 +650,9 @@ class SkatTOISpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
+            
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # collect TOI stats after converting from m,mmm:ss to seconds
             i = 5

@@ -73,6 +73,9 @@ class GoalSumSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
+            
             # players on one (extant) team all season have link to team page
             if row.xpath('td[3]/a/text()').extract():
                 loader.add_xpath('team', './/td[3]/a/text()')
@@ -174,6 +177,9 @@ class GoalBioSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
+            
             # collect birth year, convert per NHL CBA
             bDate = row.xpath('td[4]/text()').extract()[0]
             bMonth = bDate[:3]
@@ -183,6 +189,7 @@ class GoalBioSpider(CrawlSpider):
                 bYear = bYear+1
             bYear = str(bYear+1900)
             loader.add_value('birth_year', bYear)
+            loader.add_xpath('draft_year', './/td[12]/text()')
             
             # feed item to pipeline
             yield loader.load_item()
@@ -237,6 +244,9 @@ class GoalPSSpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
+            
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # collect additional stats
             loader.add_xpath('ps_attempts', './/td[6]/text()')
@@ -296,6 +306,9 @@ class GoalSOSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
+            
             # collect additional stats
             loader.add_xpath('so_wins', './/td[14]/text()')
             loader.add_xpath('so_losses', './/td[15]/text()')
@@ -354,6 +367,9 @@ class GoalSTSpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
+            
+            # add nhl_num_season unique identifier
+            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # collect additional stats
             loader.add_xpath('es_shots_against', './/td[6]/text()')

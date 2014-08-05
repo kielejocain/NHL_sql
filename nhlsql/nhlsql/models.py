@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Numeric
+from sqlalchemy import create_engine, Column, BigInteger, Integer, String, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine.url import URL
 
@@ -23,12 +23,13 @@ class SkaterSum(DeclarativeBase):
 
     first_name = Column('first_name', String)
     last_name = Column('last_name', String)
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
+    nhl_num = Column('nhl_num', Integer)
     season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     team = Column('team', String)
     team2 = Column('team2', String, nullable=True)
     team3 = Column('team3', String, nullable=True)
-    position = Column('position', String)
+    position = Column('player_position', String)
     games_played = Column('games_played', Integer)
     goals = Column('goals', Integer)
     assists = Column('assists', Integer)
@@ -47,17 +48,16 @@ class SkaterSum(DeclarativeBase):
 class SkaterBio(DeclarativeBase):
     """Sqlalchemy skater bio model"""
     __tablename__ = "skatbio"
-
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     birth_year = Column('birth_year', Integer)
+    draft_year = Column('draft_year', Integer)
     
 class SkaterEng(DeclarativeBase):
     """Sqlalchemy skater empty net/penalty shot goals model"""
     __tablename__ = "skateng"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     en_goals = Column('en_goals', Integer)
     ps_goals = Column('ps_goals', Integer)
     
@@ -65,8 +65,7 @@ class SkaterPIM(DeclarativeBase):
     """Sqlalchemy skater penalty model"""
     __tablename__ = "skatpim"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     minors = Column('minors', Integer)
     majors = Column('majors', Integer)
     misconducts = Column('misconducts', Integer)
@@ -77,8 +76,7 @@ class SkaterPM(DeclarativeBase):
     """Sqlalchemy skater plus/minus model"""
     __tablename__ = "skatpm"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     team_goals_for = Column('team_goals_for', Integer)
     team_pp_goals_for = Column('team_pp_goals_for', Integer)
     team_goals_against = Column('team_goals_against', Integer)
@@ -88,8 +86,7 @@ class SkaterRTS(DeclarativeBase):
     """Sqlalchemy skater real-time stats model"""
     __tablename__ = "skatrts"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     hits = Column('hits', Integer)
     blocked_shots = Column('blocked_shots', Integer)
     missed_shots = Column('missed_shots', Integer)
@@ -102,8 +99,7 @@ class SkaterSO(DeclarativeBase):
     """Sqlalchemy skater shootout model"""
     __tablename__ = "skatso"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     so_shots = Column('so_shots', Integer)
     so_goals = Column('so_goals', Integer)
     so_pct = Column('so_pct', Numeric)
@@ -113,8 +109,7 @@ class SkaterOT(DeclarativeBase):
     """Sqlalchemy skater overtime model"""
     __tablename__ = "skatot"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     ot_games_played = Column('ot_games_played', Integer)
     ot_assists = Column('ot_assists', Integer)
     ot_points = Column('ot_points', Integer)
@@ -123,8 +118,7 @@ class SkaterTOI(DeclarativeBase):
     """Sqlalchemy skater time on ice model"""
     __tablename__ = "skattoi"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     es_toi = Column('es_toi', Integer)
     sh_toi = Column('sh_toi', Integer)
     pp_toi = Column('pp_toi', Integer)
@@ -136,9 +130,10 @@ class GoalieSum(DeclarativeBase):
     
     first_name = Column('first_name', String)
     last_name = Column('last_name', String)
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
+    nhl_num = Column('nhl_num', Integer)
     season = Column('season', Integer)
-    position = Column('position', String)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
+    position = Column('player_position', String)
     team = Column('team', String)
     team2 = Column('team2', String, nullable=True)
     team3 = Column('team3', String, nullable=True)
@@ -163,16 +158,15 @@ class GoalieBio(DeclarativeBase):
     """Sqlalchemy goalie bio model"""
     __tablename__ = "goalbio"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     birth_year = Column('birth_year', Integer)
+    draft_year = Column('draft_year', Integer)
     
 class GoaliePS(DeclarativeBase):
     """Sqlalchemy goalie penalty shot model"""
     __tablename__ = "goalps"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     ps_attempts = Column('ps_attempts', Integer)
     ps_goals_against = Column('ps_goals_against', Integer)
     ps_saves = Column('ps_saves', Integer)
@@ -181,8 +175,7 @@ class GoalieSO(DeclarativeBase):
     """Sqlalchemy goalie shootout model"""
     __tablename__ = "goalso"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     so_wins = Column('so_wins', Integer)
     so_losses = Column('so_losses', Integer)
     so_shots_against = Column('so_shots_against', Integer)
@@ -192,8 +185,7 @@ class GoalieST(DeclarativeBase):
     """Sqlalchemy goalie special teams model"""
     __tablename__ = "goalst"
 
-    nhl_num = Column('nhl_num', Integer, primary_key=True)
-    season = Column('season', Integer)
+    player_season_id = Column('player_season_id', BigInteger, primary_key=True)
     es_shots_against = Column('es_shots_against', Integer)
     es_goals_against = Column('es_goals_against', Integer)
     es_saves = Column('es_saves', Integer)

@@ -6,11 +6,15 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #
 
+import datetime as dt
+
+today = dt.datetime.now()
+
 BOT_NAME = 'nhlsql'
 
 SPIDER_MODULES = ['nhlsql.spiders']
 NEWSPIDER_MODULE = 'nhlsql.spiders'
-LOG_FILE = 'nhlsql.log'
+LOG_FILE = '%s.log' % (today.strftime('%y.%m.%d %H:%M:%S'),)
 
 DATABASE = {'drivername': 'postgres',
             'host': 'localhost',
