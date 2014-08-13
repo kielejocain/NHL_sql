@@ -22,7 +22,7 @@ Sequence to obtain data
 
 1. Install dependancies
 
-2. Set up file structure
+2. Set up file structure (remove `-TEMPLATE` from `settings.py-TEMPLATE` filename)
 
 3. Create database, enter details into `settings.py`
 
