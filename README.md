@@ -30,7 +30,7 @@ Sequence to obtain data
 
 5. In a (distinct) terminal run `skater_crawl.sh` and `goalie_crawl.sh`.  This will obtain all the data over several minutes, storing it in disparate tables representing several different classes of NHL.com statistics pages.
 
-6. Run the two SQL table commands, which will join your collection of skater and goalie tables into two large stats tables, called 'skaterstats' and 'goaliestats'.
+6. Run `skater_join` and `goalie_join` in your SQL terminal/GUI, which will join your collection of skater and goalie tables into two large stats tables.
 
 Schema
 ------
