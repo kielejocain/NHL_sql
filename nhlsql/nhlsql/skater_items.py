@@ -8,15 +8,11 @@ from scrapy.item import Item, Field
 class SkatSumItem(Item):
     # define the fields for your item here like:
     # name = Field()
-    first_name = Field()
-    last_name = Field()
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     team = Field()
     team2 = Field()
     team3 = Field()
-    position = Field()
     games_played = Field()
     goals = Field()
     assists = Field()
@@ -33,23 +29,23 @@ class SkatSumItem(Item):
     shot_pct = Field()
 
 class SkatBioItem(Item):
+    first_name = Field()
+    last_name = Field()
     nhl_num = Field()
-    season = Field()
-    player_season_id = Field()
-    birth_year = Field()
+    position = Field()
+    birthday = Field()
     draft_year = Field()
+    draft_position = Field()
 
 class SkatEngItem(Item):
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     en_goals = Field()
     ps_goals = Field()
 
 class SkatPIMItem(Item):
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     minors = Field()
     majors = Field()
     misconducts = Field()
@@ -59,7 +55,6 @@ class SkatPIMItem(Item):
 class SkatPMItem(Item):
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     team_goals_for = Field()
     team_pp_goals_for = Field()
     team_goals_against = Field()
@@ -69,7 +64,6 @@ class SkatPMItem(Item):
 class SkatRTSItem(Item):
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     hits = Field()
     blocked_shots = Field()
     missed_shots = Field()
@@ -81,7 +75,6 @@ class SkatRTSItem(Item):
 class SkatSOItem(Item):
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     so_shots = Field()
     so_goals = Field()
     so_pct = Field()
@@ -90,7 +83,6 @@ class SkatSOItem(Item):
 class SkatOTItem(Item):
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     ot_games_played = Field()
     ot_assists = Field()
     ot_points = Field()
@@ -98,7 +90,6 @@ class SkatOTItem(Item):
 class SkatTOIItem(Item):
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     es_toi = Field()
     sh_toi = Field()
     pp_toi = Field()

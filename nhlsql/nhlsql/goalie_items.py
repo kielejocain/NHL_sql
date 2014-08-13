@@ -8,12 +8,8 @@ from scrapy.item import Item, Field
 class GoalSumItem(Item):
     # define the fields for your item here like:
     # name = Field()
-    first_name = Field()
-    last_name = Field()
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
-    position = Field()
     team = Field()
     team2 = Field()
     team3 = Field()
@@ -35,16 +31,17 @@ class GoalSumItem(Item):
     toi = Field()
     
 class GoalBioItem(Item):
+    first_name = Field()
+    last_name = Field()
     nhl_num = Field()
-    season = Field()
-    player_season_id = Field()
-    birth_year = Field()
+    position = Field()
+    birthday = Field()
     draft_year = Field()
+    draft_position = Field()
 
 class GoalPSItem(Item):
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     ps_attempts = Field()
     ps_goals_against = Field()
     ps_saves = Field()
@@ -52,7 +49,6 @@ class GoalPSItem(Item):
 class GoalSOItem(Item):
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     so_wins = Field()
     so_losses = Field()
     so_shots_against = Field()
@@ -61,7 +57,6 @@ class GoalSOItem(Item):
 class GoalSTItem(Item):
     nhl_num = Field()
     season = Field()
-    player_season_id = Field()
     es_shots_against = Field()
     es_goals_against = Field()
     es_saves = Field()

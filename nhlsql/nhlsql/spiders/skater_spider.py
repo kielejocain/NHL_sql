@@ -51,8 +51,6 @@ class SkatSumSpider(CrawlSpider):
             shootout = 1
             
         # instantiate parsing variables
-        name = ""
-        sName = []
         num = 0
         
         # loop through players
@@ -61,12 +59,6 @@ class SkatSumSpider(CrawlSpider):
             loader.default_input_processor = MapCompose()
             loader.default_output_processor = Join()
             
-            # parse the name
-            name = row.xpath('td[2]/a/text()').extract()
-            sName = name[0].split(' ',1)
-            loader.add_value('first_name', sName[0])
-            loader.add_value('last_name', sName[1])
-            
             # get unique NHL ID number from player's page URL
             num = row.xpath('td[2]/a/@href').extract()
             sNum = num[0][-7:]
@@ -74,9 +66,6 @@ class SkatSumSpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
-            
-            # add nhl_num_season unique identifier
-            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # players on one (extant) team all season have link to team page
             if row.xpath('td[3]/a/text()').extract():
@@ -98,7 +87,6 @@ class SkatSumSpider(CrawlSpider):
                     loader.add_value('team3', None)
             
             # collect several other data points
-            loader.add_xpath('position', './/td[4]/text()')
             loader.add_xpath('games_played', './/td[5]/text()')
             loader.add_xpath('goals', './/td[6]/text()')
             loader.add_xpath('assists', './/td[7]/text()')
@@ -161,7 +149,21 @@ class SkatBioSpider(CrawlSpider):
         rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
             
         # instantiate parsing variables
+        name = ""
+        sName = []
         num = 0
+        MONTHS = {'Jan': '01',
+                  'Feb': '02',
+                  'Mar': '03',
+                  'Apr': '04',
+                  'May': '05',
+                  'Jun': '06',
+                  'Jul': '07',
+                  'Aug': '08',
+                  'Sep': '09',
+                  'Oct': '10',
+                  'Nov': '11',
+                  'Dec': '12'}
         
         # loop through players
         for row in rows:
@@ -169,27 +171,28 @@ class SkatBioSpider(CrawlSpider):
             loader.default_input_processor = MapCompose()
             loader.default_output_processor = Join()
             
+            # parse the name
+            name = row.xpath('td[2]/a/text()').extract()
+            sName = name[0].split(' ',1)
+            loader.add_value('first_name', sName[0])
+            loader.add_value('last_name', sName[1])
+            
             # get unique NHL ID number from player's page URL
             num = row.xpath('td[2]/a/@href').extract()
             sNum = num[0][-7:]
             loader.add_value('nhl_num', sNum)
             
-            # add season data
-            loader.add_value('season', str(self.year))
-            
-            # add nhl_num_season unique identifier
-            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
-            
-            # collect birth year, convert per NHL CBA
+            # collect birth year
             bDate = row.xpath('td[5]/text()').extract()[0]
-            bMonth = bDate[:3]
-            bYear = int(bDate[-2:])
-            # Players age according to whether or not they where born by June 30th
-            if bMonth in ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']:
-                bYear = bYear+1
-            bYear = str(bYear+1900)
-            loader.add_value('birth_year', bYear)
+            bYear = "19" + bDate[-2:]
+            bMonth = MONTHS[bDate[:3]]
+            bDay = bDate[4:6]
+            loader.add_value('birthday', "%s-%s-%s" % (bYear, bMonth, bDay))
+            
+            #collect other data points
+            loader.add_xpath('position', './/td[4]/text()')
             loader.add_xpath('draft_year', './/td[12]/text()')
+            loader.add_xpath('draft_position', './/td[14]/text()')
             
             # feed item to pipeline
             yield loader.load_item()
@@ -251,9 +254,6 @@ class SkatEngSpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
-            
-            # add nhl_num_season unique identifier
-            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # collect stats
             if shootout:
@@ -318,9 +318,6 @@ class SkatPIMSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
-            # add nhl_num_season unique identifier
-            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
-            
             # collect stats
             loader.add_xpath('minors', './/td[7]/text()')
             loader.add_xpath('majors', './/td[8]/text()')
@@ -383,9 +380,6 @@ class SkatPMSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
-            # add nhl_num_season unique identifier
-            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
-            
             # collect stats
             loader.add_xpath('team_goals_for', './/td[14]/text()')
             loader.add_xpath('team_pp_goals_for', './/td[15]/text()')
@@ -446,9 +440,6 @@ class SkatRTSSpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
-            
-            # add nhl_num_season unique identifier
-            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # collect stats
             loader.add_xpath('hits', './/td[6]/text()')
@@ -513,9 +504,6 @@ class SkatSOSpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
-            
-            # add nhl_num_season unique identifier
-            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # collect stats
             loader.add_xpath('so_shots', './/td[13]/text()')
@@ -583,9 +571,6 @@ class SkatOTSpider(CrawlSpider):
             # add season data
             loader.add_value('season', str(self.year))
             
-            # add nhl_num_season unique identifier
-            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
-            
             # collect stats
             if shootout:
                 loader.add_xpath('ot_games_played', './/td[16]/text()')
@@ -650,9 +635,6 @@ class SkatTOISpider(CrawlSpider):
             
             # add season data
             loader.add_value('season', str(self.year))
-            
-            # add nhl_num_season unique identifier
-            loader.add_value('player_season_id', '%s%s' % (sNum, str(self.year)))
             
             # collect TOI stats after converting from m,mmm:ss to seconds
             i = 5
