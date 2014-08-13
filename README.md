@@ -37,7 +37,13 @@ Schema
 
 Though it may be generous to call it a 'schema,' what you'll find of value when the process is finished are two tables of player biography data titled `skaters` and `goalies`, along with the respective collections of seasonwide statistics in the tables `skaterstats` and `goaliestats`.  The biography tables are keyed by the NHL's unique 7-digit identifying numbers for the players in the `nhl_num` column.  As such, a query looking for all 50+ goal scorers in the last 10 years might look like:
 
-`SELECT last_name, first_name, season, goals FROM skaters, skaterstats WHERE skaters.nhl_num = skaterstats.nhl_num AND season > 2003 AND goals >= 50 ORDER BY goals DESC;`
+`SELECT last_name, first_name, season, goals`
+
+`FROM skaters, skaterstats`
+
+`WHERE skaters.nhl_num = skaterstats.nhl_num AND season > 2003 AND goals >= 50`
+
+`ORDER BY goals DESC;`
 
 Known Issues
 ------------
