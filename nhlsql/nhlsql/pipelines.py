@@ -20,7 +20,7 @@ class PlayerPipeline(object):
         self.Session = sessionmaker(bind=engine)
 
     def process_item(self, item, spider):
-        """Save skaters in the database.
+        """Save players in the database.
 
         This method is called for every item in the pipeline component.
 

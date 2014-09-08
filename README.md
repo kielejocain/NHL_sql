@@ -22,7 +22,7 @@ Sequence to obtain data
 
 1. Install dependancies
 
-2. Set up file structure (remove `-TEMPLATE` from `settings.py-TEMPLATE` filename)
+2. Set up file structure (remove `-TEMPLATE` from `settings.py-TEMPLATE` filename, add `logs` directory in parent directory (with `scrapy.cfg`)
 
 3. Create database, enter details into `settings.py`
 

@@ -1,2 +1,6 @@
 settings.py
 *.log
+*.project
+*.pydevproject
+*.R
+*.pyc
