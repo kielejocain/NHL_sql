@@ -22,15 +22,15 @@ Sequence to obtain data
 
 1. Install dependancies
 
-2. Set up file structure (remove `-TEMPLATE` from `settings.py-TEMPLATE` filename, add `logs` directory in parent directory (with `scrapy.cfg`)
+2. Set up file structure (remove `-TEMPLATE` from `nhlsql/settings/py` and `*_clean.sh`), add `logs` directory in parent directory (with `scrapy.cfg`)
 
-3. Create database, enter details into `settings.py`
+3. Create database, enter details into former `-TEMPLATE` files (e.g., `[--psql username--]` is usually `postgres` by default)
 
 4. Connect to that database with a terminal or GUI (like pgAdmin)
 
 5. In a (distinct) terminal run `skater_crawl.sh` and `goalie_crawl.sh`.  This will obtain all the data over several minutes, storing it in disparate tables representing several different classes of NHL.com statistics pages.
 
-6. Run `skater_join` and `goalie_join` in your SQL terminal/GUI, which will join your collection of skater and goalie tables into two large stats tables.
+6. Run `skat_clean.sh` and `goal_clean.sh` in your SQL terminal/GUI, which will join your collection of skater and goalie tables into two large stats tables.
 
 Schema
 ------
@@ -48,9 +48,7 @@ Though it may be generous to call it a 'schema,' what you'll find of value when 
 Known Issues
 ------------
 
-* At present, some NHL pages break out a player's statistics over several lines, one for each team.  In particular this occurs on the goalie shootout pages.
-
-* I haven't bothered to automate the removal of the temporary tables in which the data lives before being nicely joined.
+* None as of last commit.
 
 Acknowledgements
 ----------------
