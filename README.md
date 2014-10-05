@@ -15,7 +15,9 @@ Requirements
 
 * [Sqlalchemy][3] is another required Python module.
 
-* This script is known to work with [PostgreSQL][4] versions 9.1.4 and 9.3.4, and with a small amount of tweaking (likely in the settings file) can likely be made to work with several other SQL databases as well.
+* This script is known to work with [PostgreSQL][4] versions 9.1.4 and 9.3.4, and with a small amount of tweaking (likely in the settings and .SQL files) can likely be made to work with several other SQL databases as well.
+
+* One needs to be able to run bash scripts.  They were written to work in Ubuntu; I haven't tested their ability to function in Windows with win-bash or the terminal included with Windows' or OS X's Git install.
 
 Sequence to obtain data
 -----------------------
@@ -30,7 +32,7 @@ Sequence to obtain data
 
 5. In a (distinct) terminal run `skater_crawl.sh` and `goalie_crawl.sh`.  This will obtain all the data over several minutes, storing it in disparate tables representing several different classes of NHL.com statistics pages.
 
-6. Run `skat_clean.sh` and `goal_clean.sh` in your SQL terminal/GUI, which will join your collection of skater and goalie tables into two large stats tables.
+6. Run `skat_clean.sh` and `goal_clean.sh` in your SQL terminal/GUI, which will clean and normalize you data as described below.
 
 Schema
 ------
@@ -53,7 +55,7 @@ Known Issues
 Acknowledgements
 ----------------
 
-A great deal of the code came from the fantastic tutorials at [newcoder.io][5], which I have heavily editted and brought in line with the current (0.24.4 as of this creation) version of Scrapy.
+The base of the Scrapy code came from the fantastic tutorials at [newcoder.io][5], which I have heavily editted and brought in line with the current (0.24.4 as of this creation) version of Scrapy.
 
 [1]: https://www.python.org/download/   "Download Python"
 [2]: http://doc.scrapy.org/en/latest/intro/install.html "Scrapy Installation Guide"
