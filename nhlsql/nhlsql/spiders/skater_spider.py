@@ -656,7 +656,7 @@ class SkatTOISpider(CrawlSpider):
                     temp = row.xpath('td[' + str(i) + ']/text()').extract()[0]
                     sTemp = temp.split(':')
                     sTemp[0] = sTemp[0].replace(',', '')
-                    loader.add_value(CATEG[(i - 6) / 2], str(60 * int(sTemp[0])) + sTemp[1])
+                    loader.add_value(CATEG[(i - 6) / 2], str(60 * int(sTemp[0]) + int(sTemp[1])))
                 else:
                     pass
 

@@ -109,7 +109,7 @@ class GoalSumSpider(CrawlSpider):
             temp = row.xpath(location).extract()[0]
             sTemp = temp.split(':')
             sTemp[0] = sTemp[0].replace(',', '')
-            loader.add_value('toi', str(60*int(sTemp[0]))+sTemp[1])
+            loader.add_value('toi', str(60*int(sTemp[0])+int(sTemp[1])))
             
             # feed item to pipeline
             yield loader.load_item()

@@ -7,3 +7,4 @@ skat_clean.sh
 *.pydevproject
 *.R
 *.pyc
+R/
