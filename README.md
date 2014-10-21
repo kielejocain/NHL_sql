@@ -40,11 +40,9 @@ Sequence to obtain data
 
 3. Create database, enter details into former `-TEMPLATE` files (e.g., `[--db owner--]` is `postgres` by default)
 
-4. Connect to that database with a terminal or GUI (like pgAdmin)
+4. Run `skater_crawl.sh` and `goalie_crawl.sh`.  These will obtain all the data over several minutes, storing it in disparate tables representing several different classes of NHL.com statistics pages.
 
-5. In a (distinct) terminal run `skater_crawl.sh` and `goalie_crawl.sh`.  This will obtain all the data over several minutes, storing it in disparate tables representing several different classes of NHL.com statistics pages.
-
-6. Run `skat_clean.sh` and `goal_clean.sh` in your SQL terminal/GUI, which will clean and normalize you data as described below.
+5. Run `skat_clean.sh` and `goal_clean.sh`, which will clean and normalize you data as described below.
 
 Schema
 ------
