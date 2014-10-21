@@ -17,17 +17,17 @@ Requirements
 
 * You'll need to install libraries and headers for C development; in Ubuntu, this amounts to
 
-    sudo apt-get install posgresql-server-dev-X.Y
+	sudo apt-get install posgresql-server-dev-X.Y
 
 where `X.Y` is the PostgreSQL version you've installed.
 
 * The python module [Sqlalchemy][3] will require the Python development headers. In Ubuntu, run
 
-    sudo apt-get install python-dev
+	sudo apt-get install python-dev
 
 * All modules in the `requirements.txt` need to be installed.  With `pip`, this can be accomplished with
 
-    pip install -r requirements.txt
+	pip install -r requirements.txt
 
 * One needs to be able to run bash scripts.  They were written to work in Ubuntu; I haven't tested their ability to function in any other environment, but they are exceedingly basic and should be easily tweaked at worst.
 
