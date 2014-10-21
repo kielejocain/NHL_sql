@@ -8,4 +8,4 @@ skat_clean.sh
 *.R
 *.pyc
 R/
-.ideas/
+.idea/
