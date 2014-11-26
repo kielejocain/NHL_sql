@@ -11,7 +11,9 @@ Requirements
 
 * [Python 2.7+][1] is required for the use of the framework Scrapy. Python 3+ is not supported.  `pip` is also assumed for package installation.
 
-	sudo apt-get install python-pip
+```
+sudo apt-get install python-pip
+```
 
 * I would highly recommend using a python virtual environment for this project, as there are numerous required modules that may not play nice with others.  There are several quality guides out there for installing `virtualenv` (and `virtualenvwrapper`, if you like).
 
@@ -19,31 +21,34 @@ Requirements
 
 * You'll also need to install libraries and headers for C development; in Ubuntu, this amounts to
 
-	sudo apt-get update
-
-	sudo apt-get install libffi-dev libxml2-dev libxst1-dev
-
-	sudo apt-get install postgresql-X.Y
-
-	sudo apt-get install posgresql-server-dev-X.Y
+```
+sudo apt-get update
+sudo apt-get install libffi-dev libxml2-dev libxst1-dev
+sudo apt-get install postgresql-X.Y
+sudo apt-get install posgresql-server-dev-X.Y
+```
 
 where `X.Y` is the PostgreSQL version you've installed (*e.g.*, 9.3).
 
 * [Scrapy 0.24.4][2] is the version in which this code is known to work.  This module requires SEVERAL other pieces to install, which the `pip` script will happily do for you if your machine has the requisite libraries. If you're not in a virtual environment, you may need `sudo`.
 
-	pip install scrapy==0.24.4
+```
+pip install scrapy==0.24.4
+```
 
 * The python module [Sqlalchemy][3] will require the Python development headers, as well as the python module `psycopg2`.
 
-	sudo apt-get install python-dev
-
-	pip install psycopg2
-
-	pip install sqlalchemy
+```
+sudo apt-get install python-dev
+pip install psycopg2
+pip install sqlalchemy
+```
 
 * Alternatively, you can install all python modules (after all header files are installed) by the following command.
 
-	pip install -r requirements.txt
+```
+pip install -r requirements.txt
+```
 
 * One needs to be able to run bash scripts.  They were written to work in Ubuntu; I haven't tested their ability to function in any other environment, but they are exceedingly basic and should be easily tweaked at worst.
 
