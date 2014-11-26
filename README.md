@@ -9,9 +9,12 @@ This repo is a project to cull all season-wide data from the NHL.com statistics 
 Requirements
 ------------
 
+As I'm relatively new to Unix-based environments, I'll simply preface this install sequence with the fact that I'm running Ubuntu (this works on both 12.04 and 14.04).
+
 * [Python 2.7+][1] is required for the use of the framework Scrapy. Python 3+ is not supported.  `pip` is also assumed for package installation.
 
 ```
+sudo apt-get update
 sudo apt-get install python-pip
 ```
 
@@ -22,13 +25,12 @@ sudo apt-get install python-pip
 * You'll also need to install libraries and headers for C development; in Ubuntu, this amounts to
 
 ```
-sudo apt-get update
-sudo apt-get install libffi-dev libxml2-dev libxst1-dev
+sudo apt-get install libffi-dev libxml2-dev libxslt1-dev
 sudo apt-get install postgresql-X.Y
 sudo apt-get install posgresql-server-dev-X.Y
 ```
 
-where `X.Y` is the PostgreSQL version you've installed (*e.g.*, 9.3).
+where `X.Y` is the PostgreSQL version you've installed (*e.g.*, `9.3`).
 
 * [Scrapy 0.24.4][2] is the version in which this code is known to work.  This module requires SEVERAL other pieces to install, which the `pip` script will happily do for you if your machine has the requisite libraries. If you're not in a virtual environment, you may need `sudo`.
 
@@ -44,13 +46,13 @@ pip install psycopg2
 pip install sqlalchemy
 ```
 
-* Alternatively, you can install all python modules (after all header files are installed) by the following command.
+* Alternatively, you can install all python modules (after all header files are installed) by the following command.  You'll still need to install all the libraries and headers above with `apt`.
 
 ```
 pip install -r requirements.txt
 ```
 
-* One needs to be able to run bash scripts.  They were written to work in Ubuntu; I haven't tested their ability to function in any other environment, but they are exceedingly basic and should be easily tweaked at worst.
+* One needs to be able to run bash scripts.  They were written to work in Ubuntu; I haven't tested their ability to function in any other environment, but they are exceedingly basic and should be easily rewritten at worst.
 
 Sequence to obtain data
 -----------------------
