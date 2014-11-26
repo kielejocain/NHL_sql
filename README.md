@@ -11,6 +11,8 @@ Requirements
 
 * [Python 2.7+][1] is required for the use of the framework Scrapy. Python 3+ is not supported.  `pip` is also assumed for package installation.
 
+	sudo apt-get install python-pip
+
 * I would highly recommend using a python virtual environment for this project, as there are numerous required modules that may not play nice with others.  There are several quality guides out there for installing `virtualenv` (and `virtualenvwrapper`, if you like).
 
 * This script is known to work with [PostgreSQL][4] versions 9.1.4 and 9.3.5, and with a small amount of tweaking (likely in the settings and .SQL files) can likely be made to work with several other SQL databases as well.
@@ -18,8 +20,11 @@ Requirements
 * You'll also need to install libraries and headers for C development; in Ubuntu, this amounts to
 
 	sudo apt-get update
+
 	sudo apt-get install libffi-dev libxml2-dev libxst1-dev
+
 	sudo apt-get install postgresql-X.Y
+
 	sudo apt-get install posgresql-server-dev-X.Y
 
 where `X.Y` is the PostgreSQL version you've installed (*e.g.*, 9.3).
@@ -31,7 +36,9 @@ where `X.Y` is the PostgreSQL version you've installed (*e.g.*, 9.3).
 * The python module [Sqlalchemy][3] will require the Python development headers, as well as the python module `psycopg2`.
 
 	sudo apt-get install python-dev
+
 	pip install psycopg2
+
 	pip install sqlalchemy
 
 * Alternatively, you can install all python modules (after all header files are installed) by the following command.
