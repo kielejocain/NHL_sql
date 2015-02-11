@@ -1,3 +1,4 @@
+SQLAlchemy==0.9.8
 Scrapy==0.24.4
 Twisted==14.0.2
 argparse==1.2.1
@@ -9,8 +10,8 @@ psycopg2==2.5.4
 pyOpenSSL==0.14
 pycparser==2.10
 queuelib==1.2.2
+service-identity==14.0.0
 six==1.8.0
 w3lib==1.10.0
 wsgiref==0.1.2
 zope.interface==4.1.1
-SQLAlchemy==0.9.8

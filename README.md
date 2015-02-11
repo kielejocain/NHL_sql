@@ -38,12 +38,13 @@ where `X.Y` is the PostgreSQL version you've installed (*e.g.*, `9.3`).
 pip install scrapy==0.24.4
 ```
 
-* The python module [Sqlalchemy][3] will require the Python development headers, as well as the python module `psycopg2`.
+* The python module [Sqlalchemy][3] will require the Python development headers, as well as the python module `psycopg2`.  Finally, the `Twisted` module complains unless you install the `service_identity` module to go with it.
 
 ```
 sudo apt-get install python-dev
 pip install psycopg2
 pip install sqlalchemy
+pip install service_identity
 ```
 
 * Alternatively, you can install all python modules (after all header files are installed) by the following command.  You'll still need to install all the libraries and headers above with `apt`.
