@@ -21,7 +21,7 @@ class SkatSumSpider(CrawlSpider):
     # tell parser where to look for links to follow and what to seek
     rules = (Rule(LxmlLinkExtractor(
         allow='.*&pg=.*',
-        restrict_xpaths='/html//tfoot[@class="paging"]'),
+        restrict_xpaths='/html//div[@class="pages"]'),
         callback='parse_item', follow=True
     ),)
 
@@ -37,14 +37,14 @@ class SkatSumSpider(CrawlSpider):
 
         # defines the starting URLs procedurally
         self.start_urls = [
-            "http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLSASALL"
-            "&viewName=summary&sort=points&pg=1" % season]
+            "http://www.nhl.com/stats/player?fetchKey=%s2ALLSASALL"
+            "&viewName=summary&sort=points&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
 
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
         # prepare to adjust for shootout stats if necessary
         shootout = 0
@@ -125,7 +125,7 @@ class SkatBioSpider(CrawlSpider):
     # tell parser where to look for links to follow and what to seek
     rules = (Rule(LxmlLinkExtractor(
         allow=('.*&pg=.*'),
-        restrict_xpaths=('/html//tfoot[@class="paging"]')),
+        restrict_xpaths=('/html//div[@class="pages"]')),
                   callback='parse_item', follow=True
     ),)
 
@@ -141,14 +141,14 @@ class SkatBioSpider(CrawlSpider):
 
         # defines the starting URLs procedurally
         self.start_urls = [
-            "http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLSASALL"
-            "&viewName=bios&sort=player.birthCountryAbbrev&pg=1" % season]
+            "http://www.nhl.com/stats/player?fetchKey=%s2ALLSASALL"
+            "&viewName=bios&sort=points&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
 
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
         # instantiate parsing variables
         name = ""
@@ -211,7 +211,7 @@ class SkatEngSpider(CrawlSpider):
     # tell parser where to look for links to follow and what to seek
     rules = (Rule(LxmlLinkExtractor(
         allow=('.*&pg=.*'),
-        restrict_xpaths=('/html//tfoot[@class="paging"]')),
+        restrict_xpaths=('/html//div[@class="pages"]')),
                   callback='parse_item', follow=True
     ),)
 
@@ -227,14 +227,14 @@ class SkatEngSpider(CrawlSpider):
 
         # defines the starting URLs procedurally
         self.start_urls = [
-            "http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLSASALL"
-            "&viewName=goals&sort=goals&pg=1" % season]
+            "http://www.nhl.com/stats/player?fetchKey=%s2ALLSASALL"
+            "&viewName=goals&sort=points&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
 
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
         # prepare to adjust for shootout stats if necessary
         shootout = 0
@@ -280,7 +280,7 @@ class SkatPIMSpider(CrawlSpider):
     # tell parser where to look for links to follow and what to seek
     rules = (Rule(LxmlLinkExtractor(
         allow=('.*&pg=.*'),
-        restrict_xpaths=('/html//tfoot[@class="paging"]')),
+        restrict_xpaths=('/html//div[@class="pages"]')),
                   callback='parse_item', follow=True
     ),)
 
@@ -296,14 +296,14 @@ class SkatPIMSpider(CrawlSpider):
 
         # defines the starting URLs procedurally
         self.start_urls = [
-            "http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLSASALL"
-            "&viewName=penalties&sort=penaltyMinutes&pg=1" % season]
+            "http://www.nhl.com/stats/player?fetchKey=%s2ALLSASALL"
+            "&viewName=penalties&sort=penaltyMinutes&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
 
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
         # instantiate parsing variables
         num = 0
@@ -343,7 +343,7 @@ class SkatPMSpider(CrawlSpider):
     # tell parser where to look for links to follow and what to seek
     rules = (Rule(LxmlLinkExtractor(
         allow=('.*&pg=.*'),
-        restrict_xpaths=('/html//tfoot[@class="paging"]')),
+        restrict_xpaths=('/html//div[@class="pages"]')),
                   callback='parse_item', follow=True
     ),)
 
@@ -359,14 +359,14 @@ class SkatPMSpider(CrawlSpider):
 
         # defines the starting URLs procedurally
         self.start_urls = [
-            "http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLSASALL"
-            "&viewName=plusMinus&sort=plusMinus&pg=1" % season]
+            "http://www.nhl.com/stats/player?fetchKey=%s2ALLSASALL"
+            "&viewName=plusMinus&sort=plusMinus&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
 
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
         # instantiate parsing variables
         num = 0
@@ -405,7 +405,7 @@ class SkatRTSSpider(CrawlSpider):
     # tell parser where to look for links to follow and what to seek
     rules = (Rule(LxmlLinkExtractor(
         allow=('.*&pg=.*'),
-        restrict_xpaths=('/html//tfoot[@class="paging"]')),
+        restrict_xpaths=('/html//div[@class="pages"]')),
                   callback='parse_item', follow=True
     ),)
 
@@ -421,14 +421,14 @@ class SkatRTSSpider(CrawlSpider):
 
         # defines the starting URLs procedurally
         self.start_urls = [
-            "http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLSASALL"
-            "&viewName=rtssPlayerStats&sort=gamesPlayed&pg=1" % season]
+            "http://www.nhl.com/stats/player?fetchKey=%s2ALLSASALL"
+            "&viewName=rtssPlayerStats&sort=gamesPlayed&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
 
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
         # instantiate parsing variables
         num = 0
@@ -470,7 +470,7 @@ class SkatSOSpider(CrawlSpider):
     # tell parser where to look for links to follow and what to seek
     rules = (Rule(LxmlLinkExtractor(
         allow=('.*&pg=.*'),
-        restrict_xpaths=('/html//tfoot[@class="paging"]')),
+        restrict_xpaths=('/html//div[@class="pages"]')),
                   callback='parse_item', follow=True
     ),)
 
@@ -486,14 +486,14 @@ class SkatSOSpider(CrawlSpider):
 
         # defines the starting URLs procedurally
         self.start_urls = [
-            "http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLSASALL"
-            "&viewName=shootouts&sort=goals&pg=1" % season]
+            "http://www.nhl.com/stats/player?fetchKey=%s2ALLSASALL"
+            "&viewName=shootouts&sort=goals&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
 
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
         # instantiate parsing variables
         num = 0
@@ -532,7 +532,7 @@ class SkatOTSpider(CrawlSpider):
     # tell parser where to look for links to follow and what to seek
     rules = (Rule(LxmlLinkExtractor(
         allow=('.*&pg=.*'),
-        restrict_xpaths=('/html//tfoot[@class="paging"]')),
+        restrict_xpaths=('/html//div[@class="pages"]')),
                   callback='parse_item', follow=True
     ),)
 
@@ -548,14 +548,14 @@ class SkatOTSpider(CrawlSpider):
 
         # defines the starting URLs procedurally
         self.start_urls = [
-            "http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLSASALL"
-            "&viewName=scoringLeaders&sort=powerPlayGoals&pg=1" % season]
+            "http://www.nhl.com/stats/player?fetchKey=%s2ALLSASALL"
+            "&viewName=scoringLeaders&sort=powerPlayGoals&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
 
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
         # prepare to adjust for shootout stats if necessary
         shootout = 0
@@ -603,7 +603,7 @@ class SkatTOISpider(CrawlSpider):
     # tell parser where to look for links to follow and what to seek
     rules = (Rule(LxmlLinkExtractor(
         allow=('.*&pg=.*'),
-        restrict_xpaths=('/html//tfoot[@class="paging"]')),
+        restrict_xpaths=('/html//div[@class="pages"]')),
                   callback='parse_item', follow=True
     ),)
 
@@ -619,14 +619,14 @@ class SkatTOISpider(CrawlSpider):
 
         # defines the starting URLs procedurally
         self.start_urls = [
-            "http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLSASALL"
-            "&viewName=timeOnIce&sort=timeOnIce&pg=1" % season]
+            "http://www.nhl.com/stats/player?fetchKey=%s2ALLSASALL"
+            "&viewName=timeOnIce&sort=timeOnIce&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
 
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
         # instantiate parsing variables
         num = 0
