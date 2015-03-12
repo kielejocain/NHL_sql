@@ -18,7 +18,7 @@ class GoalSumSpider(CrawlSpider):
 
     rules = (Rule(LxmlLinkExtractor(
                                     allow=('.*&pg=.*'),
-                                    restrict_xpaths=('/html//tfoot[@class="paging"]')
+                                    restrict_xpaths=('/html//div[@class="pages"]')
                                     ),
                   callback='parse_item', follow=True
                   ),)
@@ -34,22 +34,19 @@ class GoalSumSpider(CrawlSpider):
         self.year = int(season)
         
         # defines the starting URL procedurally
-        self.start_urls = ["http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLGAGALL"
-                  "&viewName=summary&sort=wins&pg=1" % season]
+        self.start_urls = ["http://www.nhl.com/stats/player?fetchKey=%s2ALLGAGALL"
+                  "&viewName=summary&sort=wins&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
         
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
         
         # prepare to adjust for shootout stats if necessary
         shootout = 0
         if self.year > 2005:
             shootout = 1
-        
-        # instantiate parsing variables
-        num = 0
         
         # loop through players
         for row in rows:
@@ -123,7 +120,7 @@ class GoalBioSpider(CrawlSpider):
 
     rules = (Rule(LxmlLinkExtractor(
                                     allow=('.*&pg=.*'),
-                                    restrict_xpaths=('/html//tfoot[@class="paging"]')
+                                    restrict_xpaths=('/html//div[@class="pages"]')
                                     ),
                   callback='parse_item', follow=True
                   ),)
@@ -139,19 +136,16 @@ class GoalBioSpider(CrawlSpider):
         self.year = int(season)
         
         # defines the starting URL procedurally
-        self.start_urls = ["http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLGAGALL"
-                  "&viewName=goalieBios&sort=player.birthCountryAbbrev&pg=1" % season]
+        self.start_urls = ["http://www.nhl.com/stats/player?fetchKey=%s2ALLGAGALL"
+                  "&viewName=goalieBios&sort=wins&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
         
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
         
         # instantiate parsing variables
-        name = ""
-        sName = []
-        num = 0
         MONTHS = {'Jan': '01',
                   'Feb': '02',
                   'Mar': '03',
@@ -206,7 +200,7 @@ class GoalPSSpider(CrawlSpider):
 
     rules = (Rule(LxmlLinkExtractor(
                                     allow=('.*&pg=.*'),
-                                    restrict_xpaths=('/html//tfoot[@class="paging"]')
+                                    restrict_xpaths=('/html//div[@class="pages"]')
                                     ),
                   callback='parse_item', follow=True
                   ),)
@@ -222,17 +216,14 @@ class GoalPSSpider(CrawlSpider):
         self.year = int(season)
         
         # defines the starting URL procedurally
-        self.start_urls = ["http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLGAGALL"
-                  "&viewName=penaltyShot&sort=penaltyShotsAgainst&pg=1" % season]
+        self.start_urls = ["http://www.nhl.com/stats/player?fetchKey=%s2ALLGAGALL"
+                  "&viewName=penaltyShot&sort=penaltyShotsAgainst&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
         
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
-        
-        # instantiate parsing variables
-        num = 0
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
         
         # loop through players
         for row in rows:
@@ -265,7 +256,7 @@ class GoalSOSpider(CrawlSpider):
 
     rules = (Rule(LxmlLinkExtractor(
                                     allow=('.*&pg=.*'),
-                                    restrict_xpaths=('/html//tfoot[@class="paging"]')
+                                    restrict_xpaths=('/html//div[@class="pages"]')
                                     ),
                   callback='parse_item', follow=True
                   ),)
@@ -281,17 +272,14 @@ class GoalSOSpider(CrawlSpider):
         self.year = int(season)
         
         # defines the starting URL procedurally
-        self.start_urls = ["http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLGAGALL"
-                  "&viewName=shootouts&sort=shootoutGamesWon&pg=1" % season]
+        self.start_urls = ["http://www.nhl.com/stats/player?fetchKey=%s2ALLGAGALL"
+                  "&viewName=shootouts&sort=shootoutGamesWon&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
         
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
-        
-        # instantiate parsing variables
-        num = 0
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
         
         for row in rows:
             loader = ItemLoader(GoalSOItem(), selector=row)
@@ -324,7 +312,7 @@ class GoalSTSpider(CrawlSpider):
 
     rules = (Rule(LxmlLinkExtractor(
                                     allow=('.*&pg=.*'),
-                                    restrict_xpaths=('/html//tfoot[@class="paging"]')
+                                    restrict_xpaths=('/html//div[@class="pages"]')
                                     ),
                   callback='parse_item', follow=True
                   ),)
@@ -340,17 +328,14 @@ class GoalSTSpider(CrawlSpider):
         self.year = int(season)
         
         # defines the starting URL procedurally
-        self.start_urls = ["http://www.nhl.com/ice/playerstats.htm?fetchKey=%s2ALLGAGALL"
-                  "&viewName=specialTeamSaves&sort=evenStrengthSaves&pg=1" % season]
+        self.start_urls = ["http://www.nhl.com/stats/player?fetchKey=%s2ALLGAGALL"
+                  "&viewName=specialTeamSaves&sort=evenStrengthSaves&ord=desc&gp=1&pg=1" % season]
 
     def parse_item(self, response):
         sel = Selector(response)
         
         # collect xpaths of each player (row in table)
-        rows = sel.xpath('/html//div[@class="contentBlock"]/table/tbody/tr')
-        
-        # instantiate parsing variables
-        num = 0
+        rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
         
         for row in rows:
             loader = ItemLoader(GoalSTItem(), selector=row)
