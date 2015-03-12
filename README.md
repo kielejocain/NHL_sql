@@ -58,15 +58,13 @@ pip install -r requirements.txt
 Sequence to obtain data
 -----------------------
 
-1. Install dependancies
+1. Install dependencies
 
 2. Set up file structure (remove `-TEMPLATE` from `nhlsql/settings/py` and `*_clean.sh`), add `logs` directory in parent directory (with `scrapy.cfg`)
 
 3. Create database, enter details into former `-TEMPLATE` files (e.g., `[--db owner--]` is `postgres` by default)
 
-4. Run `skater_crawl.sh` and `goalie_crawl.sh`.  These will obtain all the data over several minutes, storing it in disparate tables representing several different classes of NHL.com statistics pages.
-
-5. Run `skat_clean.sh` and `goal_clean.sh`, which will clean and normalize you data as described below.
+4. Run `init_scrape.sh`.  These will obtain all the data over several minutes, storing it in disparate tables representing several different classes of NHL.com statistics pages.  It will then run the `*_clean.sql` and `*_join.sql` commands in psql to fix the NHL's silly way of handling shootout statistics, and to join all the various tables into one coherent one for players and goalies.
 
 Schema
 ------
