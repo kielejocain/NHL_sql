@@ -1,7 +1,9 @@
 #!/bin/bash
 
+workon nhlscrape
+
 season="2015"
-user="postgres"
+user="kielejocain"
 
 scrapy crawl skatsum -a season="${season}"
 echo "skatsum${season}"
@@ -33,9 +35,11 @@ echo "goalso${season}"
 scrapy crawl goalst -a season="${season}"
 echo "goalst${season}"
 
-sudo -u ${user} psql -d nhltest -v season=${season} -f ~/workspace/NHL_sql/nhlsql/skat_clean.sql
-sudo -u ${user} psql -d nhltest -v season=${season} -f ~/workspace/NHL_sql/nhlsql/goal_clean.sql
-sudo -u ${user} psql -d nhltest -v season=${season} -f ~/workspace/NHL_sql/nhlsql/curr_skat_join.sql
-sudo -u ${user} psql -d nhltest -v season=${season} -f ~/workspace/NHL_sql/nhlsql/curr_goal_join.sql
+deactivate
+
+sudo -u ${user} psql -d hockeyml -v season=${season} -f ~/workspace/NHL_sql/nhlsql/skat_clean.sql
+sudo -u ${user} psql -d hockeyml -v season=${season} -f ~/workspace/NHL_sql/nhlsql/goal_clean.sql
+sudo -u ${user} psql -d hockeyml -v season=${season} -f ~/workspace/NHL_sql/nhlsql/curr_skat_join.sql
+sudo -u ${user} psql -d hockeyml -v season=${season} -f ~/workspace/NHL_sql/nhlsql/curr_goal_join.sql
 
 exit
