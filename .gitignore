@@ -1,6 +1,4 @@
-goal_clean.sh
 settings.py
-skat_clean.sh
 *TEMPLATE
 *.log
 *.project
