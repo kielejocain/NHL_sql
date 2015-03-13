@@ -20,13 +20,13 @@ scrapy crawl skattoi -a season="${season}"
 echo "skattoi${season}"
 
 scrapy crawl goalsum -a season="${season}"
-echo "skatsum${season}"
+echo "goalsum${season}"
 scrapy crawl goalbio -a season="${season}"
-echo "skatbio${season}"
+echo "goalbio${season}"
 scrapy crawl goalps -a season="${season}"
-echo "skateng${season}"
+echo "goalps${season}"
 scrapy crawl goalst -a season="${season}"
-echo "skatpm${season}"
+echo "goalst${season}"
 done
 
 for season in 2006 2007 2008 2009 2010 2011 2012 2013 2014
@@ -34,7 +34,7 @@ do
 scrapy crawl skatso -a season="${season}"
 echo "skatso${season}"
 scrapy crawl goalso -a season="${season}"
-echo "skatpim${season}"
+echo "goalso${season}"
 sudo -u postgres psql -d nhltest -v season=${season} -f ~/workspace/NHL_sql/nhlsql/skat_clean.sql
 sudo -u postgres psql -d nhltest -v season=${season} -f ~/workspace/NHL_sql/nhlsql/goal_clean.sql
 done

@@ -23,15 +23,15 @@ scrapy crawl skattoi -a season="${season}"
 echo "skattoi${season}"
 
 scrapy crawl goalsum -a season="${season}"
-echo "skatsum${season}"
+echo "goalsum${season}"
 scrapy crawl goalbio -a season="${season}"
-echo "skatbio${season}"
+echo "goalbio${season}"
 scrapy crawl goalps -a season="${season}"
-echo "skateng${season}"
+echo "goalps${season}"
 scrapy crawl goalso -a season="${season}"
-echo "skatpim${season}"
+echo "goalso${season}"
 scrapy crawl goalst -a season="${season}"
-echo "skatpm${season}"
+echo "goalst${season}"
 
 sudo -u ${user} psql -d nhltest -v season=${season} -f ~/workspace/NHL_sql/nhlsql/skat_clean.sql
 sudo -u ${user} psql -d nhltest -v season=${season} -f ~/workspace/NHL_sql/nhlsql/goal_clean.sql
