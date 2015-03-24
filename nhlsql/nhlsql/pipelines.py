@@ -55,6 +55,8 @@ class PlayerPipeline(object):
             player = GoalieSO(**item)
         elif whois == 'goalst':
             player = GoalieST(**item)
+        elif whois == 'standings':
+            player = StandingsModel(**item)
 
         try:
             session.add(player)

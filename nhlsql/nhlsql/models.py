@@ -236,3 +236,17 @@ class GoalieST(DeclarativeBase):
     sh_goals_against = Column('sh_goals_against', Integer)
     sh_saves = Column('sh_saves', Integer)
     sh_save_pct = Column('sh_save_pct', Numeric)
+
+
+class StandingsModel(DeclarativeBase):
+    """Sqlalchemy team standings model"""
+    __tablename__ = "standings"
+
+    team = Column('team', String, primary_key=True)
+    division = Column('division', String)
+    games_played = Column('games_played', Integer)
+    wins = Column('wins', Integer)
+    losses = Column('losses', Integer)
+    ot_losses = Column('ot_losses', Integer)
+    points = Column('points', Integer)
+    row = Column('row', Integer)

@@ -35,6 +35,9 @@ echo "goalso${season}"
 scrapy crawl goalst -a season="${season}"
 echo "goalst${season}"
 
+sudo -u ${user} psql -d hockeyml -c "drop table standings;"
+scrapy crawl standings
+
 deactivate
 
 sudo -u ${user} psql -d hockeyml -v season=${season} -f ~/workspace/NHL_sql/nhlsql/skat_clean.sql
