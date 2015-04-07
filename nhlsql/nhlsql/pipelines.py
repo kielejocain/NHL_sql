@@ -20,12 +20,13 @@ class PlayerPipeline(object):
         self.Session = sessionmaker(bind=engine)
 
     def process_item(self, item, spider):
-        """Save players in the database.
-
+        """
+        Save players in the database.
         This method is called for every item in the pipeline component.
-
         """
         session = self.Session()
+
+        # ensures that the item we pass through the pipeline is of the correct type
         whois = spider.name
         if whois == 'skatsum':
             player = SkaterSum(**item)

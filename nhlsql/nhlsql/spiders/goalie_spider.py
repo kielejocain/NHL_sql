@@ -9,6 +9,7 @@ from scrapy.contrib.loader.processor import Join, MapCompose
 
 from nhlsql.goalie_items import *
 
+
 # This spider grabs most classic stats from the 'Summary' pages.
 
 class GoalSumSpider(CrawlSpider):
@@ -111,6 +112,7 @@ class GoalSumSpider(CrawlSpider):
             # feed item to pipeline
             yield loader.load_item()
 
+
 # This spider scrapes bio pages to get the birth year of goaltenders.
 
 class GoalBioSpider(CrawlSpider):
@@ -172,7 +174,7 @@ class GoalBioSpider(CrawlSpider):
             
             # parse the name
             name = row.xpath('td[2]/a/text()').extract()
-            sName = name[0].split(' ',1)
+            sName = name[0].split(' ', 1)
             loader.add_value('first_name', sName[0])
             loader.add_value('last_name', sName[1])
             
@@ -246,6 +248,7 @@ class GoalPSSpider(CrawlSpider):
             
             # feed item to pipeline
             yield loader.load_item()
+
 
 # This spider scrapes shootout stats.
 

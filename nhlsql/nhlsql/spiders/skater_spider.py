@@ -51,9 +51,6 @@ class SkatSumSpider(CrawlSpider):
         if self.year > 2005:
             shootout = 1
 
-        # instantiate parsing variables
-        num = 0
-
         # loop through players
         for row in rows:
             loader = ItemLoader(SkatSumItem(), selector=row)
@@ -114,7 +111,7 @@ class SkatSumSpider(CrawlSpider):
             yield loader.load_item()
 
 
-# This spider grabs the birth year from the 'Bio' pages.
+# This spider grabs data the NHL considers fixed from the 'Bio' pages.
 
 class SkatBioSpider(CrawlSpider):
     # define class variables
@@ -151,9 +148,6 @@ class SkatBioSpider(CrawlSpider):
         rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
         # instantiate parsing variables
-        name = ""
-        sName = []
-        num = 0
         MONTHS = {'Jan': '01',
                   'Feb': '02',
                   'Mar': '03',
@@ -241,9 +235,6 @@ class SkatEngSpider(CrawlSpider):
         if self.year > 2005:
             shootout = 1
 
-        # instantiate parsing variables
-        num = 0
-
         # loop through players
         for row in rows:
             loader = ItemLoader(SkatEngItem(), selector=row)
@@ -305,9 +296,6 @@ class SkatPIMSpider(CrawlSpider):
         # collect xpaths of each player (row in table)
         rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
-        # instantiate parsing variables
-        num = 0
-
         # loop through players
         for row in rows:
             loader = ItemLoader(SkatPIMItem(), selector=row)
@@ -368,9 +356,6 @@ class SkatPMSpider(CrawlSpider):
         # collect xpaths of each player (row in table)
         rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
-        # instantiate parsing variables
-        num = 0
-
         # loop through players
         for row in rows:
             loader = ItemLoader(SkatPMItem(), selector=row)
@@ -429,9 +414,6 @@ class SkatRTSSpider(CrawlSpider):
 
         # collect xpaths of each player (row in table)
         rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
-
-        # instantiate parsing variables
-        num = 0
 
         # loop through players
         for row in rows:
@@ -494,9 +476,6 @@ class SkatSOSpider(CrawlSpider):
 
         # collect xpaths of each player (row in table)
         rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
-
-        # instantiate parsing variables
-        num = 0
 
         # loop through players
         for row in rows:
@@ -562,9 +541,6 @@ class SkatOTSpider(CrawlSpider):
         if self.year > 2005:
             shootout = 1
 
-        # instantiate parsing variables
-        num = 0
-
         # loop through players
         for row in rows:
             loader = ItemLoader(SkatOTItem(), selector=row)
@@ -628,9 +604,6 @@ class SkatTOISpider(CrawlSpider):
         # collect xpaths of each player (row in table)
         rows = sel.xpath('/html//div[@class="table-container"]/table/tbody/tr')
 
-        # instantiate parsing variables
-        num = 0
-
         # loop through players
         for row in rows:
             loader = ItemLoader(SkatTOIItem(), selector=row)
@@ -647,8 +620,6 @@ class SkatTOISpider(CrawlSpider):
 
             # collect TOI stats after converting from m,mmm:ss to seconds
             i = 5
-            temp = ""
-            sTemp = []
             CATEG = ['es_toi', 'sh_toi', 'pp_toi', 'toi']
             while i < 12:
                 i += 1

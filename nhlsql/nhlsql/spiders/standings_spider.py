@@ -7,8 +7,8 @@ from scrapy.contrib.loader.processor import Join, MapCompose
 
 from nhlsql.standings_items import *
 
-# This spider grabs most classic stats from the 'Summary' pages.
 
+# This spider grabs most classic stats from the 'Summary' pages.
 
 class StandingsSpider(CrawlSpider):
     # define class variables
