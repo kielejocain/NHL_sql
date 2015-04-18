@@ -61,9 +61,9 @@ Sequence to obtain data
 
 1. Install dependencies
 
-2. Set up file structure (remove `-TEMPLATE` from `nhlsql/settings/py` and `*_clean.sh`), add `logs` directory in parent directory (with `scrapy.cfg`)
+2. Add `logs` directory in parent directory (with `scrapy.cfg`)
 
-3. Create database, enter details into former `-TEMPLATE` files (e.g., `[--db owner--]` is `postgres` by default)
+3. Create database, save details into the environment variables $DB_NAME (name of the database), $DB_USER (user of the database in postgres), and $DB_PASS (password for the user $DB_USER)
 
 4. Run `init_scrape.sh`.  These will obtain all the data over several minutes, storing it in disparate tables representing several different classes of NHL.com statistics pages.  It will then run the `*_clean.sql` and `*_join.sql` commands in psql to fix the NHL's silly way of handling shootout statistics, and to join all the various tables into one coherent one for players and goalies.
 
