@@ -15,6 +15,7 @@ As I'm relatively new to Unix-based environments, I'll simply preface this insta
 
 ```
 sudo apt-get update
+sudo apt-get python-dev
 sudo apt-get install python-pip
 ```
 
