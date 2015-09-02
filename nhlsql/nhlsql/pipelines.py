@@ -30,20 +30,20 @@ class PlayerPipeline(object):
         whois = spider.name
         if whois == 'skatsum':
             player = SkaterSum(**item)
-        elif whois == 'skatbio':
-            player = SkaterBio(**item)
-        elif whois == 'skateng':
-            player = SkaterEng(**item)
-        elif whois == 'skatpim':
-            player = SkaterPIM(**item)
-        elif whois == 'skatpm':
-            player = SkaterPM(**item)
-        elif whois == 'skatrts':
-            player = SkaterRTS(**item)
+        elif whois == 'skatpp':
+            player = SkaterPP(**item)
+        elif whois == 'skatsh':
+            player = SkaterSH(**item)
         elif whois == 'skatso':
             player = SkaterSO(**item)
-        elif whois == 'skatot':
-            player = SkaterOT(**item)
+        elif whois == 'skatpm':
+            player = SkaterPM(**item)
+        elif whois == 'skatbio':
+            player = SkaterBio(**item)
+        elif whois == 'skatrts':
+            player = SkaterRTS(**item)
+        elif whois == 'skatpim':
+            player = SkaterPIM(**item)
         elif whois == 'skattoi':
             player = SkaterTOI(**item)
         elif whois == 'goalsum':
@@ -58,6 +58,8 @@ class PlayerPipeline(object):
             player = GoalieST(**item)
         elif whois == 'standings':
             player = StandingsModel(**item)
+        else:
+            player = PlayerTeam(**item)
 
         try:
             session.add(player)

@@ -5,28 +5,71 @@
 
 from scrapy.item import Item, Field
 
+
 class SkatSumItem(Item):
-    # define the fields for your item here like:
-    # name = Field()
     nhl_num = Field()
     season = Field()
-    team = Field()
-    team2 = Field()
-    team3 = Field()
     games_played = Field()
     goals = Field()
     assists = Field()
     points = Field()
     plus_minus = Field()
-    penalty_minutes = Field()
-    pp_goals = Field()
-    pp_points = Field()
-    sh_goals = Field()
-    sh_points = Field()
     gw_goals = Field()
     ot_goals = Field()
     shots = Field()
     shot_pct = Field()
+
+
+class SkatPPItem(Item):
+    nhl_num = Field()
+    season = Field()
+    pp_goals = Field()
+    pp_assists = Field()
+    pp_points = Field()
+    pp_shots = Field()
+    pp_hits = Field()
+    pp_blocks = Field()
+    pp_missed_shots = Field()
+    pp_giveaways = Field()
+    pp_takeaways = Field()
+    pp_faceoff_wins = Field()
+    pp_faceoff_losses = Field()
+    pp_faceoff_pct = Field()
+
+
+class SkatSHItem(Item):
+    nhl_num = Field()
+    season = Field()
+    sh_goals = Field()
+    sh_assists = Field()
+    sh_points = Field()
+    sh_shots = Field()
+    sh_hits = Field()
+    sh_blocks = Field()
+    sh_missed_shots = Field()
+    sh_giveaways = Field()
+    sh_takeaways = Field()
+    sh_faceoff_wins = Field()
+    sh_faceoff_losses = Field()
+    sh_faceoff_pct = Field()
+
+
+class SkatSOItem(Item):
+    nhl_num = Field()
+    season = Field()
+    so_shots = Field()
+    so_goals = Field()
+    so_pct = Field()
+
+
+class SkatPMItem(Item):
+    nhl_num = Field()
+    season = Field()
+    team_goals_for = Field()
+    team_pp_goals_for = Field()
+    team_goals_against = Field()
+    team_pp_goals_against = Field()
+
 
 class SkatBioItem(Item):
     first_name = Field()
@@ -37,29 +80,6 @@ class SkatBioItem(Item):
     draft_year = Field()
     draft_position = Field()
 
-class SkatEngItem(Item):
-    nhl_num = Field()
-    season = Field()
-    en_goals = Field()
-    ps_goals = Field()
-
-class SkatPIMItem(Item):
-    nhl_num = Field()
-    season = Field()
-    minors = Field()
-    majors = Field()
-    misconducts = Field()
-    game_misconducts = Field()
-    matches = Field()
-
-class SkatPMItem(Item):
-    nhl_num = Field()
-    season = Field()
-    team_goals_for = Field()
-    team_pp_goals_for = Field()
-    team_goals_against = Field()
-    team_pp_goals_against = Field()
-    
 
 class SkatRTSItem(Item):
     nhl_num = Field()
@@ -71,26 +91,30 @@ class SkatRTSItem(Item):
     takeaways = Field()
     faceoff_wins = Field()
     faceoff_losses = Field()
+    faceoff_pct = Field()
 
-class SkatSOItem(Item):
+
+class SkatPIMItem(Item):
     nhl_num = Field()
     season = Field()
-    so_shots = Field()
-    so_goals = Field()
-    so_pct = Field()
-    game_deciding_goals = Field()
+    minors = Field()
+    majors = Field()
+    misconducts = Field()
+    game_misconducts = Field()
+    matches = Field()
 
-class SkatOTItem(Item):
-    nhl_num = Field()
-    season = Field()
-    ot_games_played = Field()
-    ot_assists = Field()
-    ot_points = Field()
 
 class SkatTOIItem(Item):
     nhl_num = Field()
     season = Field()
     es_toi = Field()
-    sh_toi = Field()
     pp_toi = Field()
+    sh_toi = Field()
     toi = Field()
+
+
+class SkatTeamItem(Item):
+    nhl_num = Field()
+    season = Field()
+    order = Field()
+    team = Field()

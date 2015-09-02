@@ -15,7 +15,7 @@ BOT_NAME = 'nhlsql'
 
 SPIDER_MODULES = ['nhlsql.spiders']
 NEWSPIDER_MODULE = 'nhlsql.spiders'
-LOG_FILE = 'logs/%s.log' % (today.strftime('%y.%m.%d %H:%M:%S'),)
+LOG_FILE = 'logs/{}.log'.format(today.strftime('%y.%m.%d-%H:%M:%S'))
 
 DATABASE = {'drivername': 'postgres',
             'host': 'localhost',
@@ -27,4 +27,4 @@ DATABASE = {'drivername': 'postgres',
 ITEM_PIPELINES = {'nhlsql.pipelines.PlayerPipeline': 100}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'nhlsql (+http://www.yourdomain.com)'
+# USER_AGENT = 'nhlsql (+http://www.hockeyml.com)'
