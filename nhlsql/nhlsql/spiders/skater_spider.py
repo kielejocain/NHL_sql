@@ -60,7 +60,6 @@ class SkatSumSpider(CrawlSpider):
         for row in data['data']:
             skater = SkatSumItem()
             skater['nhl_num'] = row['playerId']
-            # WHERE IS PLUS MINUS BREAKDOWN!!!
             # add in season data manually
             skater['season'] = str(self.year)
             skater['games_played'] = row['gamesPlayed']

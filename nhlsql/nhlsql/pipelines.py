@@ -50,12 +50,8 @@ class PlayerPipeline(object):
             player = GoalieSum(**item)
         elif whois == 'goalbio':
             player = GoalieBio(**item)
-        elif whois == 'goalps':
-            player = GoaliePS(**item)
         elif whois == 'goalso':
             player = GoalieSO(**item)
-        elif whois == 'goalst':
-            player = GoalieST(**item)
         elif whois == 'standings':
             player = StandingsModel(**item)
         else:

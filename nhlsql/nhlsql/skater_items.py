@@ -118,3 +118,4 @@ class SkatTeamItem(Item):
     season = Field()
     order = Field()
     team = Field()
+    current = Field()

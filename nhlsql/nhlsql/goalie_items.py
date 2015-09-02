@@ -5,31 +5,27 @@
 
 from scrapy.item import Item, Field
 
+
 class GoalSumItem(Item):
     # define the fields for your item here like:
     # name = Field()
     nhl_num = Field()
     season = Field()
-    team = Field()
-    team2 = Field()
-    team3 = Field()
     games_played = Field()
     games_started = Field()
     wins = Field()
     losses = Field()
     ties = Field()
-    overtime_losses = Field()
+    ot_losses = Field()
+    shutouts = Field()
     shots_against = Field()
     goals_against = Field()
-    gaa = Field()
     saves_ = Field()
     save_pct = Field()
-    shutouts = Field()
-    goals = Field()
-    assists = Field()
-    penalty_minutes = Field()
     toi = Field()
+    gaa = Field()
     
+
 class GoalBioItem(Item):
     first_name = Field()
     last_name = Field()
@@ -39,12 +35,30 @@ class GoalBioItem(Item):
     draft_year = Field()
     draft_position = Field()
 
-class GoalPSItem(Item):
+
+class GoalESItem(Item):
     nhl_num = Field()
-    season = Field()
-    ps_attempts = Field()
-    ps_goals_against = Field()
-    ps_saves = Field()
+    es_shots_against = Field()
+    es_goals_against = Field()
+    es_saves = Field()
+    es_save_pct = Field()
+
+
+class GoalPPItem(Item):
+    nhl_num = Field()
+    pp_shots_against = Field()
+    pp_goals_against = Field()
+    pp_saves = Field()
+    pp_save_pct = Field()
+
+
+class GoalSHItem(Item):
+    nhl_num = Field()
+    sh_shots_against = Field()
+    sh_goals_against = Field()
+    sh_saves = Field()
+    sh_save_pct = Field()
+
 
 class GoalSOItem(Item):
     nhl_num = Field()
@@ -54,18 +68,10 @@ class GoalSOItem(Item):
     so_shots_against = Field()
     so_goals_against = Field()
 
-class GoalSTItem(Item):
+
+class GoalTeamItem(Item):
     nhl_num = Field()
     season = Field()
-    es_shots_against = Field()
-    es_goals_against = Field()
-    es_saves = Field()
-    es_save_pct = Field()
-    pp_shots_against = Field()
-    pp_goals_against = Field()
-    pp_saves = Field()
-    pp_save_pct = Field()
-    sh_shots_against = Field()
-    sh_goals_against = Field()
-    sh_saves = Field()
-    sh_save_pct = Field()
+    order = Field()
+    team = Field()
+    current = Field()
