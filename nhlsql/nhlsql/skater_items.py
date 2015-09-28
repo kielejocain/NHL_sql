@@ -27,8 +27,9 @@ class SkatPPItem(Item):
     pp_assists = Field()
     pp_points = Field()
     pp_shots = Field()
+    pp_shot_pct = Field()
     pp_hits = Field()
-    pp_blocks = Field()
+    pp_shots_blocked = Field()
     pp_missed_shots = Field()
     pp_giveaways = Field()
     pp_takeaways = Field()
@@ -44,8 +45,9 @@ class SkatSHItem(Item):
     sh_assists = Field()
     sh_points = Field()
     sh_shots = Field()
+    sh_shot_pct = Field()
     sh_hits = Field()
-    sh_blocks = Field()
+    sh_shots_blocked = Field()
     sh_missed_shots = Field()
     sh_giveaways = Field()
     sh_takeaways = Field()
@@ -85,7 +87,7 @@ class SkatRTSItem(Item):
     nhl_num = Field()
     season = Field()
     hits = Field()
-    blocked_shots = Field()
+    shots_blocked = Field()
     missed_shots = Field()
     giveaways = Field()
     takeaways = Field()
@@ -102,6 +104,7 @@ class SkatPIMItem(Item):
     misconducts = Field()
     game_misconducts = Field()
     matches = Field()
+    penalty_minutes = Field()
 
 
 class SkatTOIItem(Item):

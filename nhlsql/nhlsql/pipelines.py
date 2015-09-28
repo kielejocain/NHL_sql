@@ -39,7 +39,7 @@ class PlayerPipeline(object):
         elif whois == 'skatpm':
             player = SkaterPM(**item)
         elif whois == 'skatbio':
-            player = SkaterBio(**item)
+            player = PlayerBio(**item)
         elif whois == 'skatrts':
             player = SkaterRTS(**item)
         elif whois == 'skatpim':
@@ -49,7 +49,13 @@ class PlayerPipeline(object):
         elif whois == 'goalsum':
             player = GoalieSum(**item)
         elif whois == 'goalbio':
-            player = GoalieBio(**item)
+            player = PlayerBio(**item)
+        elif whois == 'goales':
+            player = GoalieES(**item)
+        elif whois == 'goalpp':
+            player = GoaliePP(**item)
+        elif whois == 'goalsh':
+            player = GoalieSH(**item)
         elif whois == 'goalso':
             player = GoalieSO(**item)
         elif whois == 'standings':

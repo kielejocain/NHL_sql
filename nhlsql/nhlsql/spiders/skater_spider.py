@@ -70,8 +70,8 @@ class SkatSumSpider(CrawlSpider):
             skater['gw_goals'] = row['gameWinningGoals']
             skater['ot_goals'] = row['otGoals']
             skater['shots'] = row['shots']
-            if row['shots'] > 0:
-                skater['shot_pct'] = float(row['goals']) / row['shots']
+            if skater['shots'] > 0:
+                skater['shot_pct'] = float(skater['goals']) / skater['shots']
             else:
                 skater['shot_pct'] = None
 
@@ -126,15 +126,22 @@ class SkatPPSpider(CrawlSpider):
             skater['pp_assists'] = row['ppAssists']
             skater['pp_points'] = row['ppPoints']
             skater['pp_shots'] = row['ppShots']
+            if skater['pp_shots'] > 0:
+                skater['pp_shot_pct'] = float(skater['pp_goals']) / skater['pp_shots']
+            else:
+                skater['pp_shot_pct'] = None
             skater['pp_hits'] = row['ppHits']
-            skater['pp_blocks'] = row['ppBlockedShots']
+            skater['pp_shots_blocked'] = row['ppBlockedShots']
             skater['pp_missed_shots'] = row['ppMissedShots']
             skater['pp_giveaways'] = row['ppGiveaways']
             skater['pp_takeaways'] = row['ppTakeaways']
             skater['pp_faceoff_wins'] = row['ppFaceoffsWon']
             skater['pp_faceoff_losses'] = row['ppFaceoffsLost']
-            if row['ppFaceoffsWon'] + row['ppFaceoffsLost'] > 0:
-                skater['pp_faceoff_pct'] = float(row['ppFaceoffsWon']) / (row['ppFaceoffsWon'] + row['ppFaceoffsLost'])
+            if row['ppFaceoffsWon'] is not None:
+                if row['ppFaceoffsWon'] + row['ppFaceoffsLost'] > 0:
+                    skater['pp_faceoff_pct'] = float(row['ppFaceoffsWon']) / (row['ppFaceoffsWon'] + row['ppFaceoffsLost'])
+                else:
+                    skater['pp_faceoff_pct'] = None
             else:
                 skater['pp_faceoff_pct'] = None
 
@@ -189,15 +196,22 @@ class SkatSHSpider(CrawlSpider):
             skater['sh_assists'] = row['shAssists']
             skater['sh_points'] = row['shPoints']
             skater['sh_shots'] = row['shShots']
+            if skater['sh_shots'] > 0:
+                skater['sh_shot_pct'] = float(skater['sh_goals']) / skater['sh_shots']
+            else:
+                skater['sh_shot_pct'] = None
             skater['sh_hits'] = row['shHits']
-            skater['sh_blocks'] = row['shBlockedShots']
+            skater['sh_shots_blocked'] = row['shBlockedShots']
             skater['sh_missed_shots'] = row['shMissedShots']
             skater['sh_giveaways'] = row['shGiveaways']
             skater['sh_takeaways'] = row['shTakeaways']
             skater['sh_faceoff_wins'] = row['shFaceoffsWon']
             skater['sh_faceoff_losses'] = row['shFaceoffsLost']
-            if row['shFaceoffsWon'] + row['shFaceoffsLost'] > 0:
-                skater['sh_faceoff_pct'] = float(row['shFaceoffsWon']) / (row['shFaceoffsWon'] + row['shFaceoffsLost'])
+            if row['shFaceoffsWon'] is not None:
+                if row['shFaceoffsWon'] + row['shFaceoffsLost'] > 0:
+                    skater['sh_faceoff_pct'] = float(row['shFaceoffsWon']) / (row['shFaceoffsWon'] + row['shFaceoffsLost'])
+                else:
+                    skater['sh_faceoff_pct'] = None
             else:
                 skater['sh_faceoff_pct'] = None
 
@@ -395,14 +409,14 @@ class SkatRTSSpider(CrawlSpider):
             # add in season data manually
             skater['season'] = str(self.year)
             skater['hits'] = row['hits']
-            skater['blocked_shots'] = row['blockedShots']
+            skater['shots_blocked'] = row['blockedShots']
             skater['missed_shots'] = row['missedShots']
             skater['giveaways'] = row['giveaways']
             skater['takeaways'] = row['takeaways']
             skater['faceoff_wins'] = row['faceoffsWon']
             skater['faceoff_losses'] = row['faceoffsLost']
             if row['faceoffs'] > 0:
-                skater['faceoff_pct'] = float(row['faceoffsWon']) / (row['faceoffsWon'] + row['faceoffsLost'])
+                skater['faceoff_pct'] = float(row['faceoffsWon']) / (row['faceoffs'])
             else:
                 skater['faceoff_pct'] = None
 
@@ -454,6 +468,7 @@ class SkatPIMSpider(CrawlSpider):
             skater['misconducts'] = row['penaltiesMisconduct']
             skater['game_misconducts'] = row['penaltiesGameMisconduct']
             skater['matches'] = row['penaltiesMatch']
+            skater['penalty_minutes'] = row['penaltyMinutes']
 
             # feed item to pipeline
             yield skater
@@ -505,3 +520,55 @@ class SkatTOISpider(CrawlSpider):
 
             # feed item to pipeline
             yield skater
+
+
+class SkatTeamSpider(CrawlSpider):
+    """Crawls 'Skaters > More... > Bios' pages for one regular season or playoff, obtaining only teams played for."""
+    name = "skatteam"
+    allowed_domains = ["nhl.com"]
+    start_urls = []
+
+    def __init__(self, season, is_playoffs="", *args, **kwargs):
+        super(SkatTeamSpider, self).__init__(*args, **kwargs)
+
+        # allows the passing of the command line argument to parse_item method
+        self.year = int(season)
+
+        # sets game_type to the URL argument required
+        if is_playoffs:
+            self.game_type = 3
+        else:
+            self.game_type = 2
+
+        self.start_urls = [
+            ("http://www.nhl.com/stats/rest/grouped/skaters/season/bios?cayenneExp=seasonId={}{}"
+             " and gameTypeId={}").format(self.year - 1, self.year, self.game_type)
+        ]
+
+    def parse(self, response):
+        """
+        A generator that takes in the HMTL and parses the included JSON.
+        :param response: the HTML response passed in by the spider
+        :return: yields SkatTeamItem objects
+        """
+        sel = Selector(response)
+
+        # collect data from HTML, converts to JSON with Python typing
+        data = json.loads(sel.xpath('//p/text()').extract()[0])
+
+        for row in data['data']:
+            teams = row['playerTeamsPlayedFor'].split(", ")
+            for i, team in enumerate(teams):
+                skater = SkatTeamItem()
+                skater['nhl_num'] = row['playerId']
+                # add in season data manually
+                skater['season'] = str(self.year)
+                skater['order'] = i
+                skater['team'] = team
+                if i == len(teams) - 1:
+                    skater['current'] = True
+                else:
+                    skater['current'] = False
+
+                # feed item to pipeline
+                yield skater

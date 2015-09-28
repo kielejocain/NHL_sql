@@ -38,6 +38,7 @@ class GoalBioItem(Item):
 
 class GoalESItem(Item):
     nhl_num = Field()
+    season = Field()
     es_shots_against = Field()
     es_goals_against = Field()
     es_saves = Field()
@@ -46,6 +47,7 @@ class GoalESItem(Item):
 
 class GoalPPItem(Item):
     nhl_num = Field()
+    season = Field()
     pp_shots_against = Field()
     pp_goals_against = Field()
     pp_saves = Field()
@@ -54,6 +56,7 @@ class GoalPPItem(Item):
 
 class GoalSHItem(Item):
     nhl_num = Field()
+    season = Field()
     sh_shots_against = Field()
     sh_goals_against = Field()
     sh_saves = Field()
@@ -67,6 +70,8 @@ class GoalSOItem(Item):
     so_losses = Field()
     so_shots_against = Field()
     so_goals_against = Field()
+    so_saves = Field()
+    so_save_pct = Field()
 
 
 class GoalTeamItem(Item):

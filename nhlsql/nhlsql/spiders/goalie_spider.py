@@ -69,12 +69,22 @@ class GoalSumSpider(CrawlSpider):
             goalie['losses'] = row['losses']
             goalie['ties'] = row['ties']
             goalie['ot_losses'] = row['otLosses']
+            goalie['shutouts'] = row['shutouts']
             goalie['shots_against'] = row['shotsAgainst']
             goalie['goals_against'] = row['goalsAgainst']
-            goalie['saves'] = row['shotsAgainst'] - row['goalsAgainst']
-            goalie['save_pct'] = float(goalie['saves']) / row['shotsAgainst']
+            if row['shotsAgainst'] is not None and row['goalsAgainst'] is not None:
+                goalie['saves_'] = row['shotsAgainst'] - row['goalsAgainst']
+            else:
+                goalie['saves_'] = None
+            if goalie['saves_'] is not None:
+                goalie['save_pct'] = float(goalie['saves_']) / row['shotsAgainst']
+            else:
+                goalie['save_pct'] = None
             goalie['toi'] = row['timeOnIce']
-            goalie['gaa'] = float(3600 * row['goalsAgainst']) / row['timeOnIce']
+            if row['goalsAgainst'] is not None and row['timeOnIce'] is not None:
+                goalie['gaa'] = float(3600 * row['goalsAgainst']) / row['timeOnIce']
+            else:
+                goalie['gaa'] = None
 
             # feed item to pipeline
             yield goalie
@@ -180,7 +190,10 @@ class GoalESSpider(CrawlSpider):
             goalie['es_shots_against'] = row['evShotsAgainst']
             goalie['es_goals_against'] = row['evGoalsAgainst']
             goalie['es_saves'] = row['evSaves']
-            goalie['es_save_pct'] = float(row['evSaves']) / row['evShotsAgainst']
+            if goalie['es_saves'] > 0 and goalie['es_shots_against'] > 0:
+                goalie['es_save_pct'] = float(goalie['es_saves']) / goalie['es_shots_against']
+            else:
+                goalie['es_save_pct'] = None
 
             # feed item to pipeline
             yield goalie
@@ -233,7 +246,10 @@ class GoalPPSpider(CrawlSpider):
             goalie['pp_shots_against'] = row['ppShotsAgainst']
             goalie['pp_goals_against'] = row['ppGoalsAgainst']
             goalie['pp_saves'] = row['ppSaves']
-            goalie['pp_save_pct'] = float(row['ppSaves']) / row['ppShotsAgainst']
+            if goalie['pp_saves'] > 0 and goalie['pp_shots_against'] > 0:
+                goalie['pp_save_pct'] = float(goalie['pp_saves']) / goalie['pp_shots_against']
+            else:
+                goalie['pp_save_pct'] = None
 
             # feed item to pipeline
             yield goalie
@@ -286,7 +302,10 @@ class GoalSHSpider(CrawlSpider):
             goalie['sh_shots_against'] = row['shShotsAgainst']
             goalie['sh_goals_against'] = row['shGoalsAgainst']
             goalie['sh_saves'] = row['shSaves']
-            goalie['sh_save_pct'] = float(row['shSaves']) / row['shShotsAgainst']
+            if goalie['sh_saves'] > 0 and goalie['sh_shots_against'] > 0:
+                goalie['sh_save_pct'] = float(goalie['sh_saves']) / goalie['sh_shots_against']
+            else:
+                goalie['sh_save_pct'] = None
 
             # feed item to pipeline
             yield goalie
@@ -333,7 +352,7 @@ class GoalSOSpider(CrawlSpider):
         data = json.loads(sel.xpath('//p/text()').extract()[0])
 
         for row in data['data']:
-            goalie = GoalBioItem()
+            goalie = GoalSOItem()
             goalie['nhl_num'] = row['playerId']
             # add in season data manually
             goalie['season'] = str(self.year)
@@ -341,10 +360,63 @@ class GoalSOSpider(CrawlSpider):
             goalie['so_losses'] = row['shootoutGamesLost']
             goalie['so_shots_against'] = row['shootoutShotsAgainst']
             goalie['so_goals_against'] = row['shootoutGoals']
-            if row['so_shots_against'] > 0:
-                goalie['save_pct'] = float(goalie['saves']) / row['shotsAgainst']
+            goalie['so_saves'] = goalie['so_shots_against'] - goalie['so_goals_against']
+            if goalie['so_saves'] > 0 and goalie['so_shots_against'] > 0:
+                goalie['so_save_pct'] = float(goalie['so_saves']) / goalie['so_shots_against']
             else:
                 goalie['so_save_pct'] = None
 
             # feed item to pipeline
             yield goalie
+
+
+class GoalTeamSpider(CrawlSpider):
+    """Crawls 'Goalies > Records > Bios' pages for one regular season or playoff, obtaining only teams played for."""
+    name = "goalteam"
+    allowed_domains = ["nhl.com"]
+    start_urls = []
+
+    def __init__(self, season, is_playoffs="", *args, **kwargs):
+        super(GoalTeamSpider, self).__init__(*args, **kwargs)
+
+        # allows the passing of the command line argument to parse_item method
+        self.year = int(season)
+
+        # sets game_type to the URL argument required
+        if is_playoffs:
+            self.game_type = 3
+        else:
+            self.game_type = 2
+
+        self.start_urls = [
+            ('http://www.nhl.com/stats/rest/grouped/goalies/season/goaliebios?cayenneExp=seasonId={}{}'
+             ' and gameTypeId={} and playerPositionCode="G"').format(self.year - 1, self.year, self.game_type)
+        ]
+
+    def parse(self, response):
+        """
+        A generator that takes in the HMTL and parses the included JSON.
+        :param response: the HTML response passed in by the spider
+        :return: yields GoalTeamItem objects
+        """
+        sel = Selector(response)
+
+        # collect data from HTML, converts to JSON with Python typing
+        data = json.loads(sel.xpath('//p/text()').extract()[0])
+
+        for row in data['data']:
+            teams = row['playerTeamsPlayedFor'].split(", ")
+            for i, team in enumerate(teams):
+                goalie = GoalTeamItem()
+                goalie['nhl_num'] = row['playerId']
+                # add in season data manually
+                goalie['season'] = str(self.year)
+                goalie['order'] = i
+                goalie['team'] = team
+                if i == len(teams) - 1:
+                    goalie['current'] = True
+                else:
+                    goalie['current'] = False
+
+                # feed item to pipeline
+                yield goalie
