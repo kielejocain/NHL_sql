@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for season in `seq 2015 -1 1918`;
+for season in `seq 2015 -1 2013`;
 do
 echo "start ${season}"
 echo ""
@@ -40,7 +40,7 @@ echo "end ${season}"
 echo ""
 done
 
-for season in `seq 2015 -1 2006`;
+for season in `seq 2015 -1 2013`;
 do
 scrapy crawl skatso -a season="${season}"
 echo "skatso${season}"
@@ -48,7 +48,7 @@ scrapy crawl goalso -a season="${season}"
 echo "goalso${season}"
 done
 
-sudo -u postgres psql -d nhltest -f skater_join.sql
-sudo -u postgres psql -d nhltest -f goalie_join.sql
+sudo -u postgres psql -d $DB_NAME -f skater_join.sql
+sudo -u postgres psql -d $DB_NAME -f goalie_join.sql
 
 exit
